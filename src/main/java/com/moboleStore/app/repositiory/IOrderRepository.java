@@ -7,9 +7,6 @@ import com.moboleStore.app.entity.Mobiles;
 import com.moboleStore.app.entity.Orders;
 import com.moboleStore.app.exception.OrderNotFoundException;
 
-
-
-
 public interface IOrderRepository {
 
 	public Orders addOrder(Orders order);

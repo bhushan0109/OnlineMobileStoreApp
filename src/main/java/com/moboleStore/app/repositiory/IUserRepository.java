@@ -10,11 +10,5 @@ import com.moboleStore.app.entity.Users;
 public interface IUserRepository  extends JpaRepository<Users, Integer> {
 	
 	Optional<Users> findByUsername(String username);
-	
-//	Users findByEmailId(String emailId);;
-//	public Users addUser(Users User);
-//	public Users updateUser(Users User) throws UserNotFoundException;
-//	public Users removeUser(int userId) throws UserNotFoundException;
-//	public List<Users> showAllUsers();
-//	public boolean validateUser(int userid,String userName);
+
 }
