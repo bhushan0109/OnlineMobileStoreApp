@@ -91,8 +91,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/**", // swagger-ui resources
 						"/configuration/**", // swagger configuration
 						"/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
-				.permitAll().antMatchers("/admin").permitAll().antMatchers("/user/**").permitAll()
-				.antMatchers("/login", "/register").permitAll().antMatchers("/customer").permitAll().anyRequest()
+				.permitAll().antMatchers("/admin").permitAll().antMatchers("/mobile/**").permitAll()
+				.antMatchers("/login", "/register").permitAll().antMatchers("/cat/**").permitAll().anyRequest()
 				.authenticated();
 
 // Custom JWT based security filter

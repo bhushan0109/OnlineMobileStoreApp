@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+//There are three categories of mobile phones: basic phones, feature phones, and smartphones.
 @Entity
 @Table(name = "category")
 public class Category {
@@ -22,8 +23,8 @@ public class Category {
 	@Pattern(regexp = "[a-zA-z]", message = "Give a valid category name, must contain only alphabets")
 	private String categoryName;
 	
-	@OneToMany
-	private List<Mobiles> newMobiles = new ArrayList<>();
+//	@OneToMany
+//	private List<Mobiles> newMobiles = new ArrayList<>();
 
 	public Category() {
 		super();
@@ -45,18 +46,10 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
-	public List<Mobiles> getNewMobiles() {
-		return newMobiles;
-	}
-
-	public void setNewMobiles(List<Mobiles> newMobiles) {
-		this.newMobiles = newMobiles;
-	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", newMobiles=" + newMobiles
-				+ "]";
+		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName  ;
 	}
 
 	

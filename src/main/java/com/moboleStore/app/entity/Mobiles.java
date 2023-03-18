@@ -2,15 +2,19 @@ package com.moboleStore.app.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "mobiles")
@@ -24,22 +28,23 @@ public class Mobiles {
 
 	@Min(value = 0, message = "mobileCost must be greater than 0")
 	private Float mobileCost;
-
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate mfDate;
 
 	@NotBlank(message = "modelNumber name is needed")
 	private String modelNumber;
 	@NotBlank(message = "companyName name is needed")
 	private String companyName;
-	
-	@Pattern(regexp = "[0-9]{3,30}", message = "username should only contain number and should be atleast a length of 3")
+
 	private int comeraPixcel;
 
-	@Pattern(regexp = "[0-9]{3,30}", message = "username should only contain number and should be atleast a length of 3")
 	private int mobileRAM;
 
-	@Pattern(regexp = "[0-9]{3,30}", message = "username should only contain number and should be atleast a length of 3")
 	private int battety;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoryId")
+	private Category category;
 
 	public Integer getMobileId() {
 		return mobileId;
@@ -89,10 +94,35 @@ public class Mobiles {
 		this.companyName = companyName;
 	}
 
+	public int getComeraPixcel() {
+		return comeraPixcel;
+	}
+
+	public void setComeraPixcel(int comeraPixcel) {
+		this.comeraPixcel = comeraPixcel;
+	}
+
+	public int getMobileRAM() {
+		return mobileRAM;
+	}
+
+	public void setMobileRAM(int mobileRAM) {
+		this.mobileRAM = mobileRAM;
+	}
+
+	public int getBattety() {
+		return battety;
+	}
+
+	public void setBattety(int battety) {
+		this.battety = battety;
+	}
+
 	public Mobiles(Integer mobileId, @NotBlank(message = "mobileName name is needed") String mobileName,
 			@Min(value = 0, message = "mobileCost must be greater than 0") Float mobileCost, LocalDate mfDate,
 			@NotBlank(message = "modelNumber name is needed") String modelNumber,
-			@NotBlank(message = "companyName name is needed") String companyName) {
+			@NotBlank(message = "companyName name is needed") String companyName, int comeraPixcel, int mobileRAM,
+			int battety) {
 		super();
 		this.mobileId = mobileId;
 		this.mobileName = mobileName;
@@ -100,6 +130,16 @@ public class Mobiles {
 		this.mfDate = mfDate;
 		this.modelNumber = modelNumber;
 		this.companyName = companyName;
+		this.comeraPixcel = comeraPixcel;
+		this.mobileRAM = mobileRAM;
+		this.battety = battety;
+	}
+
+	@Override
+	public String toString() {
+		return "Mobiles [mobileId=" + mobileId + ", mobileName=" + mobileName + ", mobileCost=" + mobileCost
+				+ ", mfDate=" + mfDate + ", modelNumber=" + modelNumber + ", companyName=" + companyName
+				+ ", comeraPixcel=" + comeraPixcel + ", mobileRAM=" + mobileRAM + ", battety=" + battety + "]";
 	}
 
 	public Mobiles() {
