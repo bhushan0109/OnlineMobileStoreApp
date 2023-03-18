@@ -1,4 +1,4 @@
-package com.moboleStore.app.jwt;
+package com.moboleStore.app.config;
 
 import java.io.IOException;
 

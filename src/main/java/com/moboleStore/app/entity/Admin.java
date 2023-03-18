@@ -1,5 +1,6 @@
 package com.moboleStore.app.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 public class Admin {
 	
 	@Id
+	@Column(unique = true)
 	private Integer Id;
 	private String Adminame;
 	public Integer getId() {

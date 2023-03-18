@@ -1,4 +1,4 @@
-package com.moboleStore.app.jwt;
+package com.moboleStore.app.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,20 +21,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	@Autowired
+	private UserDetailsService jwtUserDetailsService;
+
+	@Autowired
+	private JwtRequestFilter jwtRequestFilter;
 
 	@Autowired
 	private JwtAuthEntryPoint unauthorizedHandler;
 
-	@Bean
-	public JwtAuthTokenFilter authenticationJwtTokenFilter() {
-		return new JwtAuthTokenFilter();
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		// configure AuthenticationManager so that it knows from where to load
+		// user for matching credentials
+		// Use BCryptPasswordEncoder
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
-	@Override
-	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
@@ -42,15 +53,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+//	@Override
+//	protected void configure(HttpSecurity httpSecurity) throws Exception {
+//		System.out.println("---Web security -- configure");
+//		//httpSecurity.cors().disable();
+//		// We don't need CSRF for this example
+//		httpSecurity.cors().and().csrf().disable()
+//				// dont authenticate this particular request
+//				.authorizeRequests().antMatchers("/login", "/register").permitAll().
+//				// all other requests need to be authenticated
+//						anyRequest().authenticated().and().
+//				// make sure we use stateless session; session won't be used to
+//				// store user's state.
+//						exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//		// Add a filter to validate the tokens with every request
+//		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// we don't need CSRF because our token is invulnerable
-		http.csrf().disable()
+		httpSecurity.csrf().disable()
 
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
@@ -66,15 +91,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/**", // swagger-ui resources
 						"/configuration/**", // swagger configuration
 						"/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
-				.permitAll().antMatchers("/admin").
-				permitAll().antMatchers("/login/**").
-				permitAll().antMatchers("/customer").permitAll().anyRequest().authenticated();
+				.permitAll().antMatchers("/admin").permitAll().antMatchers("/user/**").permitAll()
+				.antMatchers("/login", "/register").permitAll().antMatchers("/customer").permitAll().anyRequest()
+				.authenticated();
 
 // Custom JWT based security filter
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 // disable page caching
-		http.headers().cacheControl();
-        http.cors().and().csrf().disable();
+		httpSecurity.headers().cacheControl();
+		httpSecurity.cors().and().csrf().disable();
 	}
+
 }

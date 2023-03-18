@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,17 +29,11 @@ public class Users {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId;
 
-	@Pattern(regexp = "[a-zA-Z]{3,30}", message = "username should only contain characters and should be atleast a length of 3")
+	@Column(unique = true)
 	private String username;
 
-	@Pattern(regexp = "[a-zA-Z]{3,30}", message = "role should only contain characters and should be atleast a length of 3")
 	private String role;
 
-	@NotBlank
-	@Email(message = "Give a proper emailId")
-	private String emailId;
-
-	@Pattern(regexp = "[a-zA-Z$%&!@]{6,}", message = "Password must be 6 characters, and no special characters allowed")
 	private String password;
 
 	public Users() {
@@ -72,13 +67,6 @@ public class Users {
 		this.role = role;
 	}
 
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
 
 	public String getPassword() {
 		return password;
@@ -99,23 +87,18 @@ public class Users {
 
 	@Override
 	public String toString() {
-		return "Users [userId=" + userId + ", username=" + username + ", role=" + role + ", emailId=" + emailId
+		return "Users [userId=" + userId + ", username=" + username + ", role=" + role 
 				+ ", password=" + password + ", cart=" + cart + "]";
 	}
 
-	public Users(Integer userId,
-			@Pattern(regexp = "[a-zA-Z]{3,30}", message = "username should only contain characters and should be atleast a length of 3") String username,
-			@Pattern(regexp = "[a-zA-Z]{3,30}", message = "role should only contain characters and should be atleast a length of 3") String role,
-			@NotBlank @Email(message = "Give a proper emailId") String emailId,
-			@Pattern(regexp = "[a-zA-Z$%&!@]{6,}", message = "Password must be 6 characters, and no special characters allowed") String password,
-			Cart cart) {
+	public Users(Integer userId, String username, String role, String password, Cart cart) {
 		super();
 		this.userId = userId;
 		this.username = username;
 		this.role = role;
-		this.emailId = emailId;
 		this.password = password;
 		this.cart = cart;
 	}
+
 
 }
