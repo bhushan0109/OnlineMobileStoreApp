@@ -1,4 +1,4 @@
-package com.moboleStore.app.entity;
+package com.moboleStore.app.dto;
 
 public class LoginDTO {
 	private String emailId;

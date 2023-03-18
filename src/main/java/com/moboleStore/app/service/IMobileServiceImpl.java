@@ -30,8 +30,14 @@ public class IMobileServiceImpl implements IMobileService {
 	private CategoryRepository categoryRepository;
 	
 	@Override
-	public Mobiles addMobile(Mobiles mobile) throws ParseException {
+	public Mobiles addMobile(Mobiles mobile) throws ParseException, CategoryException {
 		
+		Category findByCategoryName = categoryRepository.findByCategoryName(mobile.getCategory().getCategoryName());
+		
+		if(findByCategoryName == null){
+			throw new CategoryException("CategoryName " + mobile.getCategory().getCategoryName() + " not exists !");
+			
+		}
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mobile.getMfDate().toString());
 		LocalDate mfdDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		mobile.setMfDate(mfdDate);
@@ -53,10 +59,10 @@ public class IMobileServiceImpl implements IMobileService {
 	}
 
 	@Override
-	public Mobiles deleteMobile(int id) throws MobileNotFoundException {
-		Optional<Mobiles> optBooks = this.iMobileRepository.findById(id);
+	public Mobiles deleteMobile(int mobileId) throws MobileNotFoundException {
+		Optional<Mobiles> optBooks = this.iMobileRepository.findById(mobileId);
 		if (optBooks.isEmpty())
-			throw new MobileNotFoundException("Mobiles id " +id+ " does not exists to delete !");
+			throw new MobileNotFoundException("Mobiles id " +mobileId+ " does not exists to delete !");
 		Mobiles obj = optBooks.get();
 		this.iMobileRepository.delete(obj);
 		return obj;

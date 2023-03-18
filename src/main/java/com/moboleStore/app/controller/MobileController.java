@@ -32,14 +32,14 @@ public class MobileController {
 	private IMobileService iMobileService;
 	
 	@PostMapping("/add")
-	public Mobiles addMobile(@Valid @RequestBody Mobiles mobiles) throws ParseException {
+	public Mobiles addMobile(@Valid @RequestBody Mobiles mobiles) throws ParseException, CategoryException {
 	
 		return iMobileService.addMobile(mobiles);
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public Mobiles deleteMobilebyId(@PathVariable("id") Integer BookId) throws  MobileNotFoundException{
-		return iMobileService.deleteMobile(BookId);
+	@DeleteMapping("/delete/{mobileId}")
+	public Mobiles deleteMobilebyId(@PathVariable("mobileId") Integer mobileId) throws  MobileNotFoundException{
+		return iMobileService.deleteMobile(mobileId);
 	}
 	
 	@PutMapping("/update")
@@ -53,14 +53,9 @@ public class MobileController {
 		
 	}
 	
-	@GetMapping("/get/{id}")
-	public Mobiles showMobileById(@PathVariable("id") Integer bookId) throws MobileNotFoundException{
-		return iMobileService.showMobileById(bookId);
-	}
-	
-	@PostMapping("/add/to/catagory/{categoryId}/{mobileId}")
-	public  Mobiles addMobilesToCategoryByCategoryId(@PathVariable("categoryId") Integer categoryId,@PathVariable("mobileId") Integer mobileId) throws CategoryException, MobileNotFoundException {
-		return iMobileService.addMobilesToCategoryByCategoryId(categoryId,mobileId);
+	@GetMapping("/get/{mobileId}")
+	public Mobiles showMobileById(@PathVariable("mobileId") Integer mobileId) throws MobileNotFoundException{
+		return iMobileService.showMobileById(mobileId);
 	}
 	
 			

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moboleStore.app.dto.AddUserDto;
-import com.moboleStore.app.entity.LoginDTO;
 import com.moboleStore.app.entity.Users;
 import com.moboleStore.app.exception.UserNotFoundException;
 import com.moboleStore.app.exception.UsersException;

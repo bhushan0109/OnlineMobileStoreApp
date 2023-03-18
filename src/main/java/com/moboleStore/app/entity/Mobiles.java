@@ -118,11 +118,32 @@ public class Mobiles {
 		this.battety = battety;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "Mobiles [mobileId=" + mobileId + ", mobileName=" + mobileName + ", mobileCost=" + mobileCost
+				+ ", mfDate=" + mfDate + ", modelNumber=" + modelNumber + ", companyName=" + companyName
+				+ ", comeraPixcel=" + comeraPixcel + ", mobileRAM=" + mobileRAM + ", battety=" + battety + ", category="
+				+ category + "]";
+	}
+
+	public Mobiles() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Mobiles(Integer mobileId, @NotBlank(message = "mobileName name is needed") String mobileName,
 			@Min(value = 0, message = "mobileCost must be greater than 0") Float mobileCost, LocalDate mfDate,
 			@NotBlank(message = "modelNumber name is needed") String modelNumber,
 			@NotBlank(message = "companyName name is needed") String companyName, int comeraPixcel, int mobileRAM,
-			int battety) {
+			int battety, Category category) {
 		super();
 		this.mobileId = mobileId;
 		this.mobileName = mobileName;
@@ -133,18 +154,8 @@ public class Mobiles {
 		this.comeraPixcel = comeraPixcel;
 		this.mobileRAM = mobileRAM;
 		this.battety = battety;
+		this.category = category;
 	}
 
-	@Override
-	public String toString() {
-		return "Mobiles [mobileId=" + mobileId + ", mobileName=" + mobileName + ", mobileCost=" + mobileCost
-				+ ", mfDate=" + mfDate + ", modelNumber=" + modelNumber + ", companyName=" + companyName
-				+ ", comeraPixcel=" + comeraPixcel + ", mobileRAM=" + mobileRAM + ", battety=" + battety + "]";
-	}
-
-	public Mobiles() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 }
