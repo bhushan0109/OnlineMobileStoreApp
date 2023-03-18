@@ -91,9 +91,18 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Mobiles deleteMobilesFromCategoryById(Integer categoryId, Integer MobileId) throws CategoryException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Mobiles> getMobilesByCategoryName(String categoryName) throws CategoryException {
+		
+		Category findByCategoryName = categoryRepository.findByCategoryName(categoryName);
+		
+		if (findByCategoryName == null) {
+			throw new CategoryException("CategoryName " + categoryName + " not exists !");
+
+		}
+		Integer categoryId = findByCategoryName.getCategoryId();	
+		List<Mobiles> findbyCategoryList = iMobileRepository.findbyCategory(categoryId);
+		
+		return findbyCategoryList;
 	}
 
 }

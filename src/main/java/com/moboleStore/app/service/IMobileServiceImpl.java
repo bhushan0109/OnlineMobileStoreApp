@@ -28,15 +28,15 @@ public class IMobileServiceImpl implements IMobileService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Override
 	public Mobiles addMobile(Mobiles mobile) throws ParseException, CategoryException {
-		
+
 		Category findByCategoryName = categoryRepository.findByCategoryName(mobile.getCategory().getCategoryName());
-		
-		if(findByCategoryName == null){
+
+		if (findByCategoryName == null) {
 			throw new CategoryException("CategoryName " + mobile.getCategory().getCategoryName() + " not exists !");
-			
+
 		}
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mobile.getMfDate().toString());
 		LocalDate mfdDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -46,10 +46,18 @@ public class IMobileServiceImpl implements IMobileService {
 	}
 
 	@Override
-	public Mobiles updateMobile(Mobiles mobile) throws MobilesException, ParseException {
+	public Mobiles updateMobile(Mobiles mobile) throws MobilesException, ParseException, CategoryException {
+
+		Category findByCategoryName = categoryRepository.findByCategoryName(mobile.getCategory().getCategoryName());
+
+		if (findByCategoryName == null) {
+			throw new CategoryException("CategoryName " + mobile.getCategory().getCategoryName() + " not exists !");
+
+		}
+
 		Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobile.getMobileId());
 		if (optMobiles.isEmpty())
-			throw new MobilesException("Book id " + mobile.getMobileId() + " does not exists to delete !");
+			throw new MobilesException("Mobile id " + mobile.getMobileId() + " does not exists to delete !");
 
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mobile.getMfDate().toString());
 		LocalDate mfdDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -62,7 +70,7 @@ public class IMobileServiceImpl implements IMobileService {
 	public Mobiles deleteMobile(int mobileId) throws MobileNotFoundException {
 		Optional<Mobiles> optBooks = this.iMobileRepository.findById(mobileId);
 		if (optBooks.isEmpty())
-			throw new MobileNotFoundException("Mobiles id " +mobileId+ " does not exists to delete !");
+			throw new MobileNotFoundException("Mobiles id " + mobileId + " does not exists to delete !");
 		Mobiles obj = optBooks.get();
 		this.iMobileRepository.delete(obj);
 		return obj;
@@ -83,7 +91,8 @@ public class IMobileServiceImpl implements IMobileService {
 	}
 
 	@Override
-	public Mobiles addMobilesToCategoryByCategoryId(Integer categoryId, Integer mobileId) throws CategoryException, MobileNotFoundException {
+	public Mobiles addMobilesToCategoryByCategoryId(Integer categoryId, Integer mobileId)
+			throws CategoryException, MobileNotFoundException {
 		return null;
 //		Optional<Category> optCategory = this.categoryRepository.findById(categoryId);
 //		if (optCategory.isEmpty()) {

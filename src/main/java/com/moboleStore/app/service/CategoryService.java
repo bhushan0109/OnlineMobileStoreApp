@@ -23,7 +23,7 @@ public interface CategoryService {
 
 	public Category deleteCategoryById(Integer categoryId) throws CategoryException;
 	
-	public Mobiles deleteMobilesFromCategoryById(Integer categoryId ,Integer MobileId) throws CategoryException;
-
 	public List<String> getAllCategoriesName();
+
+	public List<Mobiles> getMobilesByCategoryName(String categoryName) throws CategoryException;
 }

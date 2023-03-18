@@ -13,7 +13,7 @@ import com.moboleStore.app.exception.MobilesException;
 public interface IMobileService {
 
 	public Mobiles addMobile(Mobiles mobile) throws ParseException, CategoryException;
-	public Mobiles updateMobile(Mobiles mobile) throws  MobilesException, ParseException;
+	public Mobiles updateMobile(Mobiles mobile) throws  MobilesException, ParseException, CategoryException;
 	public Mobiles deleteMobile(int mobileId) throws MobileNotFoundException;
 	public Mobiles showMobileById(int mobileId) throws MobileNotFoundException;
 	public List<Mobiles> showAllMobile();

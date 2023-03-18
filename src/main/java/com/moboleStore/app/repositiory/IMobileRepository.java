@@ -16,10 +16,6 @@ public interface IMobileRepository extends JpaRepository<Mobiles, Integer> {
 
 	@Query(value = "SELECT * FROM mobiles WHERE category_id=:categoryId", nativeQuery = true)
 	public List<Mobiles> findbyCategory(int categoryId);
+	
 
-//	public Mobiles addMobile(Mobiles mobile);
-//	public Mobiles updateMedicine(Mobiles mobile) throws MobileNotFoundException;
-//	public Mobiles deleteMedicine(int id) throws MobileNotFoundException;
-//	public List<Mobiles> showAllMobile();
-//	public Mobiles showMobileById(int mobileId);
 }

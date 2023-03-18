@@ -43,7 +43,7 @@ public class MobileController {
 	}
 	
 	@PutMapping("/update")
-	public Mobiles updateMobile(@Valid @RequestBody Mobiles mobiles) throws MobilesException, ParseException{
+	public Mobiles updateMobile(@Valid @RequestBody Mobiles mobiles) throws MobilesException, ParseException, CategoryException{
 		return iMobileService.updateMobile(mobiles);
 	}
 	

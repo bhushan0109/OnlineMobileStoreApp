@@ -50,9 +50,14 @@ public class CategoryController {
 	public Category updateCategory(@Valid @RequestBody Category category) {
 		return categoryService.updateCategory(category);
 	}
-	@GetMapping("/getMobilesBy/{categoryId}")
+	@GetMapping("/getMobilesById/{categoryId}")
 	public List<Mobiles> getMobilesByCategoryId(@PathVariable("categoryId") Integer categoryId) throws CategoryException{
 		return categoryService.getMobilesByCategoryId(categoryId);
+	}
+	
+	@GetMapping("/getMobilesBycatName/{categoryName}")
+	public List<Mobiles> getMobilesByCategoryName(@PathVariable("categoryName") String categoryName) throws CategoryException{
+		return categoryService.getMobilesByCategoryName(categoryName);
 	}
 	
 }
