@@ -23,16 +23,10 @@ public class CartController {
 	private ICartService cartService;
 
 	@PostMapping("/add/{userid}/{mobieId}")
-	public Cart addMobileToCartByUserId(@PathVariable("mobieId") Integer mobieId,@PathVariable("userid") Integer userId)
-			throws CartException, UsersException, MobilesException {
+	public Cart addMobileToCartByUserId(@PathVariable("mobieId") Integer mobieId,
+			@PathVariable("userid") Integer userId) throws CartException, UsersException, MobilesException {
 
 		return cartService.addMobileToCartByUserId(mobieId, userId);
-	}
-
-	@PutMapping("/update")
-	public Cart CartServiceUpdate(@Valid @RequestBody Cart cart) throws CartException {
-
-		return cartService.updateCart(cart);
 	}
 
 	@DeleteMapping("/delete/{cartId}")
@@ -53,8 +47,15 @@ public class CartController {
 	}
 
 	@DeleteMapping("/mobile/{mobileId}/{cartId}")
-	public Mobiles removeMobilefromCartByIds(@PathVariable("mobileId") Integer mobileId,@PathVariable("cartId") Integer cartId) throws CartException, MobilesException {
+	public Cart removeMobilefromCartByIds(@PathVariable("mobileId") Integer mobileId,
+			@PathVariable("cartId") Integer cartId) throws CartException, MobilesException {
 
 		return cartService.removeMobilefromCartByIds(mobileId, cartId);
+	}
+
+	// @PutMapping("/update")
+	public Cart CartServiceUpdate(@Valid @RequestBody Cart cart) throws CartException {
+
+		return cartService.updateCart(cart);
 	}
 }

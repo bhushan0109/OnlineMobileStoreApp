@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/**", // swagger-ui resources
 						"/configuration/**", // swagger configuration
 						"/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
-				.permitAll().antMatchers("/cart").permitAll().antMatchers("/mobile/**").permitAll()
+				.permitAll().antMatchers("/cart/**").permitAll().antMatchers("/mobile/**").permitAll()
 				.antMatchers("/login", "/register").permitAll().antMatchers("/category/**").permitAll().anyRequest()
 				.authenticated();
 

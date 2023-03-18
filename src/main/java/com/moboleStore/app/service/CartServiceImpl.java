@@ -51,9 +51,13 @@ public class CartServiceImpl implements ICartService {
 		if (optCarts.isEmpty())
 			throw new CartException("Customer id is not exists to delete !");
 		Cart cart = optCarts.get();
-		this.cartRepository.delete(cart);
+		List<Mobiles> mobilesInCart = cart.getMobilesInCart();
+		mobilesInCart.removeAll(mobilesInCart);
+		cart.setQuantity(0);
+		cart.setTotalCost(0.0f);
+		Cart cartsave = cartRepository.save(cart);
 
-		return cart;
+		return cartsave;
 	}
 
 	@Override
@@ -67,7 +71,7 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
-	public Mobiles removeMobilefromCartByIds(Integer mobileId, Integer cartId) throws CartException, MobilesException {
+	public Cart removeMobilefromCartByIds(Integer mobileId, Integer cartId) throws CartException, MobilesException {
 		Optional<Cart> optCart = this.cartRepository.findById(cartId);
 		if (optCart.isEmpty())
 			throw new CartException("cart id does not exists to delete ");
@@ -90,8 +94,10 @@ public class CartServiceImpl implements ICartService {
 		foundCart.setQuantity(quantity);
 		Float cost = foundCart.getTotalCost() - delmobile.getMobileCost();
 		foundCart.setTotalCost(cost);
-		cartRepository.save(foundCart);
-		return delmobile;
+
+		Cart savecart = cartRepository.save(foundCart);
+
+		return savecart;
 	}
 
 	@Override
@@ -129,14 +135,15 @@ public class CartServiceImpl implements ICartService {
 			Float totalCost = cart.getTotalCost();
 			Integer quantity = cart.getQuantity();
 
-			cart.setQuantity(mobilesInCart.size() + 1);
-			cart.setTotalCost(mobile.getMobileCost() + mobile.getMobileCost());
+			cart.setQuantity(quantity + 1);
+			cart.setTotalCost(totalCost + mobile.getMobileCost());
 			mobilesInCart.add(mobile);
 			cart.setMobilesInCart(mobilesInCart);
 
 		}
+		Cart savecart = cartRepository.save(cart);
 		Users users = optUser.get();
-		users.setCart(cart);
+		users.setCart(savecart);
 		iUserRepository.save(users); // new card added with one mobile added
 		return cart;
 

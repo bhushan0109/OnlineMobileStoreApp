@@ -19,7 +19,7 @@ public interface ICartService {
 
 	List<Cart> getAllCarts();
 
-	Mobiles removeMobilefromCartByIds(Integer mobileId, Integer cartId) throws CartException, MobilesException;
+	Cart removeMobilefromCartByIds(Integer mobileId, Integer cartId) throws CartException, MobilesException;
 
 	Cart addMobileToCartByUserId(Integer bookId, Integer userId) throws  UsersException, CartException, MobilesException;
 

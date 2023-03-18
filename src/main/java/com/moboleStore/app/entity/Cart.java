@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -15,7 +16,7 @@ import javax.validation.constraints.Min;
 @Table(name = "cart")
 public class Cart {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer cartId;
 
 	private Float totalCost;
