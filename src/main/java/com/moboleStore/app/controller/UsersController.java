@@ -30,27 +30,14 @@ import com.moboleStore.app.service.IUserService;
 public class UsersController {
     @Autowired
     private IUserService iUserService;
-    
-    @Autowired
-	private IUserRepository iUserRepository;
 
-	@Autowired(required = false)
-	AuthenticationManager authenticationManager;
-
-    
-    
-    @PostMapping("/register")
-    public Users userRegister(@Valid @RequestBody AddUserDto addUserDto) throws UsersException{
-        return iUserService.addUser(addUserDto);
-        
-    }
     @PutMapping("/user")
     public Users UserServiceUpdate(@Valid @RequestBody Users user) throws UsersException, UserNotFoundException  {
         return iUserService.updateUser(user);
     }
     @DeleteMapping("/user/{userId}")
-    public Users iUserServiceRemove(@PathVariable("userId") Integer usersId) throws UsersException, UserNotFoundException {
-        return iUserService.removeUser(usersId);
+    public Users iUserServiceRemove(@PathVariable("userId") Integer userId) throws UsersException, UserNotFoundException {
+        return iUserService.removeUser(userId);
     }
     
     @GetMapping("/allUsers")
@@ -58,8 +45,8 @@ public class UsersController {
         return iUserService.showAllUsers();
     }
     
-    @GetMapping("/User/{id}")
-    public Users getUserById(@PathVariable("id") Integer userId) throws UsersException{
+    @GetMapping("/User/{userId}")
+    public Users getUserById(@PathVariable("userId") Integer userId) throws UsersException{
         return iUserService.getUserByUserId(userId);
     }
     
