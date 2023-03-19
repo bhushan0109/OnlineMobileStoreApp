@@ -1,8 +1,10 @@
 package com.moboleStore.app.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +45,7 @@ public class CartServiceImpl implements ICartService {
 		if (optCarts.isEmpty())
 			throw new CartException("card id is not exists to delete !");
 		Cart cart = optCarts.get();
-		List<Mobiles> mobilesInCart = cart.getMobilesInCart();
+		Set<Mobiles> mobilesInCart = cart.getMobilesInCart();
 		mobilesInCart.removeAll(mobilesInCart);
 		cart.setQuantity(0);
 		cart.setTotalCost(0.0f);
@@ -75,7 +77,7 @@ public class CartServiceImpl implements ICartService {
 		}
 		Mobiles delmobile = optMobiles.get();
 
-		List<Mobiles> mobiles = foundCart.getMobilesInCart();
+		Set<Mobiles> mobiles = foundCart.getMobilesInCart();
 		mobiles.remove(delmobile);
 
 		foundCart.setMobilesInCart(mobiles);
@@ -113,7 +115,7 @@ public class CartServiceImpl implements ICartService {
 		Mobiles mobile = optMobiles.get();
 
 		if (optCustomer.get().getCart() == null) {
-			List<Mobiles> mobilelist = new ArrayList<>();
+			Set<Mobiles> mobilelist = new HashSet<Mobiles>();
 			mobilelist.add(mobile);
 			cart = new Cart();
 			cart.setQuantity(mobilelist.size());
@@ -122,7 +124,7 @@ public class CartServiceImpl implements ICartService {
 		} else {
 
 			cart = optCustomer.get().getCart();
-			List<Mobiles> mobilesInCart = cart.getMobilesInCart();
+			Set<Mobiles> mobilesInCart = cart.getMobilesInCart();
 			Float totalCost = cart.getTotalCost();
 			Integer quantity = cart.getQuantity();
 

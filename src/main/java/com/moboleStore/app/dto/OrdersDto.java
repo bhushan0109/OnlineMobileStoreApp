@@ -1,6 +1,7 @@
 package com.moboleStore.app.dto;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.Min;
 
@@ -20,7 +21,7 @@ public class OrdersDto {
 	@JsonIgnore
 	private String orderStatus;
 
-	private List<Integer> mobilesId;
+	private Set<Integer> mobilesId;
 
 	private int customerId;
 
@@ -64,11 +65,11 @@ public class OrdersDto {
 		this.orderStatus = orderStatus;
 	}
 
-	public List<Integer> getMobilesId() {
+	public Set<Integer> getMobilesId() {
 		return mobilesId;
 	}
 
-	public void setMobilesId(List<Integer> mobilesId) {
+	public void setMobilesId(Set<Integer> mobilesId) {
 		this.mobilesId = mobilesId;
 	}
 

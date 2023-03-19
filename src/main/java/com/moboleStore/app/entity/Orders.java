@@ -2,7 +2,9 @@ package com.moboleStore.app.entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -43,8 +46,8 @@ public class Orders {
 	private Float totalCost;
 	private String orderStatus;
 
-	@OneToMany
-	private List<Mobiles> mobiles = new ArrayList<>();
+	@ManyToMany
+	private Set<Mobiles> mobiles =  new HashSet<Mobiles>();
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customerId")
@@ -110,11 +113,11 @@ public class Orders {
 		this.orderStatus = orderStatus;
 	}
 
-	public List<Mobiles> getMobiles() {
+	public Set<Mobiles> getMobiles() {
 		return mobiles;
 	}
 
-	public void setMobiles(List<Mobiles> mobiles) {
+	public void setMobiles(Set<Mobiles> mobiles) {
 		this.mobiles = mobiles;
 	}
 
@@ -136,7 +139,7 @@ public class Orders {
 	public Orders(Integer orderId, @FutureOrPresent LocalDate orderDate, @FutureOrPresent LocalDate dispachDate,
 			Integer quantity, @Min(value = 0, message = "Cost should not be negative") Float cost,
 			@Min(value = 0, message = "totalCost should not be negative") Float totalCost, String orderStatus,
-			List<Mobiles> mobiles, Customer customer) {
+			Set<Mobiles> mobiles, Customer customer) {
 		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;

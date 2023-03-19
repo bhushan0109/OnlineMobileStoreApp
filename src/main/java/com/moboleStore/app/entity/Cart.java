@@ -1,8 +1,10 @@
 package com.moboleStore.app.entity;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +25,9 @@ public class Cart {
 	private Integer quantity;
 
 	@ManyToMany
-	private List<Mobiles> mobilesInCart;
+	private Set<Mobiles> mobilesInCart;
+
+	// private Set<Mobiles> mobiles = new HashSet<Mobiles>();
 
 	public Cart() {
 		super();
@@ -53,11 +57,11 @@ public class Cart {
 		this.quantity = quantity;
 	}
 
-	public List<Mobiles> getMobilesInCart() {
+	public Set<Mobiles> getMobilesInCart() {
 		return mobilesInCart;
 	}
 
-	public void setMobilesInCart(List<Mobiles> mobilesInCart) {
+	public void setMobilesInCart(Set<Mobiles> mobilesInCart) {
 		this.mobilesInCart = mobilesInCart;
 	}
 
@@ -67,7 +71,7 @@ public class Cart {
 				+ mobilesInCart + "]";
 	}
 
-	public Cart(Integer cartId, Float totalCost, Integer quantity, List<Mobiles> mobilesInCart) {
+	public Cart(Integer cartId, Float totalCost, Integer quantity, Set<Mobiles> mobilesInCart) {
 		super();
 		this.cartId = cartId;
 		this.totalCost = totalCost;

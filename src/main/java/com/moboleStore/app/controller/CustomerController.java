@@ -27,7 +27,7 @@ import com.moboleStore.app.service.IUserService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("user")
-public class UsersController {
+public class CustomerController {
     @Autowired
     private IUserService iUserService;
 

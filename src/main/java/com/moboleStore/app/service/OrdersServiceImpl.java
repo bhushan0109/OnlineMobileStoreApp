@@ -2,8 +2,10 @@ package com.moboleStore.app.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +51,8 @@ public class OrdersServiceImpl implements IOrderService {
 		}
 
 		newOrder.setCustomer(optCustomer.get());
-		List<Integer> mobilesIds = ordersDto.getMobilesId();
-		List<Mobiles> mobilelist = new ArrayList<>();
+		Set<Integer> mobilesIds = ordersDto.getMobilesId();
+		Set<Mobiles> mobilelist = new HashSet<Mobiles>();
 		float totalCost = 0.0f;
 		int qty = 0;
 		for (Integer mobileId : mobilesIds) {
@@ -82,8 +84,8 @@ public class OrdersServiceImpl implements IOrderService {
 
 		Orders orders = optOrders.get();
 
-		List<Integer> mobilesIds = ordersDto.getMobilesId();
-		List<Mobiles> mobilelist = new ArrayList<>();
+		Set<Integer> mobilesIds = ordersDto.getMobilesId();
+		Set<Mobiles> mobilelist = new HashSet<Mobiles>();
 		float totalCost = 0.0f;
 		int qty = 0;
 		for (Integer mobileId : mobilesIds) {
@@ -149,8 +151,8 @@ public class OrdersServiceImpl implements IOrderService {
 
 		Cart foundCart = optCart.get();
 
-		List<Mobiles> mobilesInCart = foundCart.getMobilesInCart();
-		List<Mobiles> mobilelist = new ArrayList<>();
+		Set<Mobiles> mobilesInCart = foundCart.getMobilesInCart();
+		Set<Mobiles> mobilelist = new HashSet<Mobiles>();
 
 		if (mobilesInCart.isEmpty()) {
 			throw new CartException("mobilesInCart not found: " + mobilesInCart.size());
