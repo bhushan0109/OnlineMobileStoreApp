@@ -36,8 +36,14 @@ public class IMobileServiceImpl implements IMobileService {
 
 		if (findByCategoryName == null) {
 			throw new CategoryException("CategoryName " + mobile.getCategory().getCategoryName() + " not exists !");
-
+		}else {
+			// defauls catecory set
+			Category category = new Category();
+			category.setCategoryName("smartphone");
+			Category saveCategory = categoryRepository.save(category);
+			mobile.setCategory(saveCategory);
 		}
+
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mobile.getMfDate().toString());
 		LocalDate mfdDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		mobile.setMfDate(mfdDate);
