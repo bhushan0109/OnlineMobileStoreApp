@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.moboleStore.app.dto.OrdersDto;
 import com.moboleStore.app.entity.Orders;
+import com.moboleStore.app.exception.CartException;
 import com.moboleStore.app.exception.MobilesException;
 import com.moboleStore.app.exception.OrderNotFoundException;
 import com.moboleStore.app.exception.OrdersException;
@@ -20,5 +21,7 @@ public interface IOrderService {
 	public Orders getOrderById(Integer orderId) throws OrdersException;
 
 	public List<Orders> getAllOrders();
+
+	public Orders placedOrderFromCart(Integer customerId, Integer cartId) throws UsersException, CartException;
 
 }

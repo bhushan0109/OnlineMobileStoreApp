@@ -38,7 +38,7 @@ public class CartController {
 	@GetMapping("/mobilesincart/{userId}")
 	public Cart getCartByUserId(@PathVariable("userId") Integer userId) throws CartException, UsersException {
 
-		return cartService.getCartById(userId);
+		return cartService.getCartByUserId(userId);
 	}
 
 	@GetMapping("/carts")

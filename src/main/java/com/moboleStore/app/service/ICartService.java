@@ -15,7 +15,7 @@ public interface ICartService {
 
 	Cart deleteCartById(Integer Id) throws CartException;
 
-	Cart getCartById(Integer userId) throws UsersException, UsersException;
+	Cart getCartByUserId(Integer userId) throws UsersException, UsersException;
 
 	List<Cart> getAllCarts();
 
@@ -23,10 +23,5 @@ public interface ICartService {
 
 	Cart addMobileToCartByUserId(Integer bookId, Integer userId) throws  UsersException, CartException, MobilesException;
 
-//	public Mobiles addMobileItems(List<Mobiles> mobiles);
-//	public Mobiles deleteMobileItems(int mobileId) throws MobileNotFoundException;
-//	public Mobiles updateMobileItemquantity(int mobileId);
-//	public List<Mobiles> showAllMobileItems(int cartId);
-//	public int placeOrder(Cart cart);
 	
 }

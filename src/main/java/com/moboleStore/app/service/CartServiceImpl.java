@@ -33,9 +33,6 @@ public class CartServiceImpl implements ICartService {
 	@Autowired
 	private IUserRepository iUserRepository;
 
-//	@Autowired
-//	private UserService userService;
-
 	@Override
 	public Cart updateCart(Cart cart) throws CartException {
 		Optional<Cart> optCarts = cartRepository.findById(cart.getCartId());
@@ -61,7 +58,7 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
-	public Cart getCartById(Integer userId) throws UsersException {
+	public Cart getCartByUserId(Integer userId) throws UsersException {
 		Optional<Users> optUser = iUserRepository.findById(userId);
 		if (optUser.isEmpty()) {
 			throw new UsersException("User id not found:" + userId);
