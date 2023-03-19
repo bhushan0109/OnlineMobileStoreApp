@@ -36,7 +36,7 @@ public class CustomerController {
         return iUserService.removeUser(userId);
     }
     
-    @GetMapping("/allUsers")
+   // @GetMapping("/allUsers")
     public List<Users> getUsers() {
         return iUserService.showAllUsers();
     }
@@ -46,5 +46,9 @@ public class CustomerController {
         return iUserService.getUserByUserId(userId);
     }
     
+    @GetMapping("/allCustomer")
+    public List<AddUserDto> allCustomer() throws UsersException {
+        return iUserService.showAllCustomer();
+    }
 
 }

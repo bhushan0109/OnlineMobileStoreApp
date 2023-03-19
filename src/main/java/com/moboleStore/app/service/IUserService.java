@@ -16,4 +16,5 @@ public interface IUserService {
 	public Users removeUser(int userId) throws UserNotFoundException, UsersException;
 	public List<Users> showAllUsers();
 	public AddUserDto getUserByUserId(Integer userId) throws UsersException;
+	public List<AddUserDto> showAllCustomer() throws UsersException;
 }

@@ -1,5 +1,6 @@
 package com.moboleStore.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,12 +74,12 @@ public class UserServiceImpl implements IUserService {
 
 			throw new UsersException("ROLE should be User or Admin");
 		}
-		Optional<Users> findByUsername = iUserRepository.findByUsername(addUserDto.getUsername());
-		if (!findByUsername.isPresent()) {
-			throw new UsersException("Username NOT exists, try to login");
-		}
+		
+		Optional<Users> optUsers = this.iUserRepository.findById(addUserDto.getUserId());
+		if (optUsers.isEmpty())
+			throw new UsersException("User id does not exists to update !");
 
-		Users user = findByUsername.get();
+		Users user = optUsers.get();
 		BeanUtils.copyProperties(addUserDto, user);
 		if (addUserDto.getPassword() != null) {
 			user.setPassword(bcryptEncoder.encode(addUserDto.getPassword().trim()));
@@ -141,7 +142,7 @@ public class UserServiceImpl implements IUserService {
 				throw new UsersException("CustomerId not found:" + userId);
 			}
 			Customer customer = optCustomer.get();
-
+			AddUserDto.setAddress(customer.getAddress());
 			AddUserDto.setEmailId(customer.getEmailId());
 			AddUserDto.setMobileNumber(customer.getMobileNumber());
 			AddUserDto.setPassword(user.getPassword());
@@ -155,69 +156,50 @@ public class UserServiceImpl implements IUserService {
 		return AddUserDto;
 	}
 
-//	@Override
-//	public Users removeUser(Integer UserId) throws UsersException {
-//		Optional<Users> optUsers = this.userRepository.findById(UserId);
-//		if (optUsers.isEmpty())
-//			throw new UsersException("User id does not exists to delete !");
-//		Users user = optUsers.get();
-//		this.userRepository.delete(user);
-//		return user;
-//	}
-//
-//	@Override
-//	public List<Users> showAllUsers() {
-//
-//		return userRepository.findAll();
-//	}
-//
-//	@Override
-//	public Users getUserByUserId(Integer userId) throws UsersException {
-//		Optional<Users> optUsers = this.userRepository.findById(userId);
-//		if (optUsers.isEmpty())
-//			throw new UsersException("User id does not exists");
-//
-//		return optUsers.get();
-//	}
-//
-//	@Override
-//	public Users getUserByemailId(String emailId) throws UsersException {
-//		Users user = userRepository.findByEmailId(emailId);
-//		if (user == null) {
-//			throw new UsersException("user not found");
-//		}
-//		return user;
-//	}
-//
-//	@Override
-//	public Users updateUser(Users user) throws UsersException {
-//		Optional<Users> optUsers = this.userRepository.findById(user.getUserId());
-//		if (optUsers.isEmpty())
-//			throw new UsersException("User id does not exists");
-//		return userRepository.save(user);
-//	}
-//
-//	@Override
-//	public Users userLogin(String emailId, String password) throws UsersException {
-//		Users user = userRepository.findByEmailId(emailId);
-//
-//		if (user == null) {
-//			throw new UsersException("email Id doesnt exist");
-//		} else if (user.getPassword() == null || !user.getPassword().equals(password)) {
-//			throw new UsersException("password is incorrect");
-//		}
-//		return user;
-//	}
-//
-//	@Override
-//	public Users changePassword(Integer id, String changedPassword) {
-//		if (userRepository.existsById(id)) {
-//			Users user = userRepository.findById(id).get();
-//			user.setPassword(changedPassword);
-//			return user;
-//		} else {
-//			return null;
-//		}
-//
-//	}
+	@Override
+	public List<AddUserDto> showAllCustomer() throws UsersException {
+
+		List<Users> alluser = iUserRepository.findAll();
+		List<AddUserDto> alldto = new ArrayList<AddUserDto>();
+		for (Users users : alluser) {
+
+			AddUserDto AddUserDto = new AddUserDto();
+			Optional<Users> optUsers = this.iUserRepository.findById(users.getUserId());
+			if (optUsers.isEmpty())
+				throw new UsersException("User id does not exists to delete !");
+			Users user = optUsers.get();
+
+			if (user.getRole().equalsIgnoreCase("Admin")) {
+
+				AddUserDto.setAddress(null);
+				AddUserDto.setEmailId(null);
+				AddUserDto.setMobileNumber(null);
+				AddUserDto.setPassword(user.getPassword());
+				AddUserDto.setRole(user.getRole());
+				AddUserDto.setUserId(user.getUserId());
+				AddUserDto.setUsername(user.getUsername());
+				AddUserDto.setName(user.getUsername());
+
+			} else {
+
+				Optional<Customer> optCustomer = iCustomerRepository.findById(users.getUserId());
+				if (optCustomer.isEmpty()) {
+					throw new UsersException("CustomerId not found:" + users.getUserId());
+				}
+				Customer customer = optCustomer.get();
+				AddUserDto.setAddress(customer.getAddress());
+				AddUserDto.setEmailId(customer.getEmailId());
+				AddUserDto.setMobileNumber(customer.getMobileNumber());
+				AddUserDto.setPassword(user.getPassword());
+				AddUserDto.setRole(user.getRole());
+				AddUserDto.setUserId(user.getUserId());
+				AddUserDto.setUsername(user.getUsername());
+				AddUserDto.setName(user.getUsername());
+
+			}
+			alldto.add(AddUserDto);
+		}
+		return alldto;
+	}
+
 }
