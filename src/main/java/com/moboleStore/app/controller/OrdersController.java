@@ -25,6 +25,14 @@ public class OrdersController {
 	public Orders addOrder(@RequestBody OrdersDto OrdersDto) throws UsersException, MobilesException {
 
 		return iOrderService.addOrder(OrdersDto);
+
+	}
+
+	@PutMapping("/order")
+	public Orders updateOrder(@RequestBody OrdersDto ordersDto)
+			throws OrderNotFoundException, OrdersException, MobilesException {
+
+		return iOrderService.updateOrder(ordersDto);
 	}
 
 	@GetMapping("/order/{orderId}")
@@ -46,12 +54,6 @@ public class OrdersController {
 		return iOrderService.getAllOrders();
 	}
 
-	@PutMapping("/order")
-	public Orders updateOrder(@RequestBody OrdersDto ordersDto) throws OrderNotFoundException {
-
-		return iOrderService.updateOrder(ordersDto);
-	}
-
 //	@PostMapping("order/{userid}")
 //	public Orders  addOrderToUser(@PathVariable("userid") Integer userid, @RequestBody Orders order) throws UsersException{
 //		return iOrderService.addOrderToUser(order, userid);
@@ -61,5 +63,5 @@ public class OrdersController {
 //	public Orders getOrdersfromCart(@PathVariable("userid") Integer userid,) throws UsersException, CartException{
 //		return iOrderService.getOrdersFromCart(payment, userid);
 //	}
-	
+
 }

@@ -42,19 +42,12 @@ public class OrdersServiceImpl implements IOrderService {
 	@Autowired
 	ICustomerRepository iCustomerRepository;
 
-//	@Autowired
-//	private UserService userService;
-//
-//	@Autowired
-//	private CartService cartService;
-
 	@Override
 	public Orders addOrder(OrdersDto ordersDto) throws UsersException, MobilesException {
 
 		Orders newOrder = new Orders();
 		newOrder.setOrderDate(LocalDate.now());
 		newOrder.setDispachDate(LocalDate.now());
-		newOrder.setCost(ordersDto.getCost());
 
 		Optional<Customer> optCustomer = iCustomerRepository.findById(ordersDto.getCustomerId());
 		if (optCustomer.isEmpty()) {
@@ -64,7 +57,8 @@ public class OrdersServiceImpl implements IOrderService {
 		newOrder.setCustomer(optCustomer.get());
 		List<Integer> mobilesIds = ordersDto.getMobilesId();
 		List<Mobiles> mobilelist = new ArrayList<>();
-
+		float totalCost = 0.0f;
+		int qty = 0;
 		for (Integer mobileId : mobilesIds) {
 
 			Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
@@ -72,139 +66,75 @@ public class OrdersServiceImpl implements IOrderService {
 				throw new MobilesException("Mobile id " + mobileId + " does not exists !");
 			}
 			Mobiles mobile = optMobiles.get();
+			totalCost = totalCost + mobile.getMobileCost();
+			qty = qty + 1;
 			mobilelist.add(mobile);
 		}
 		newOrder.setMobiles(mobilelist);
-		newOrder.setTotalCost(ordersDto.getTotalCost());
-		newOrder.setQuantity(ordersDto.getQuantity());
-
+		newOrder.setCost(totalCost);
+		newOrder.setTotalCost(totalCost);
+		newOrder.setQuantity(qty);
+		newOrder.setOrderStatus("ORDER PLACED");
 		return orderRepository.save(newOrder);
 	}
 
 	@Override
-	public Orders updateOrder(OrdersDto ordersDto) throws OrderNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public Orders updateOrder(OrdersDto ordersDto) throws OrderNotFoundException, OrdersException, MobilesException {
+
+		Optional<Orders> optOrders = this.orderRepository.findById(ordersDto.getOrderId());
+		if (optOrders.isEmpty()) {
+			throw new OrdersException("Orders id " + ordersDto.getOrderId() + " does not exists !");
+		}
+
+		Orders orders = optOrders.get();
+
+		List<Integer> mobilesIds = ordersDto.getMobilesId();
+		List<Mobiles> mobilelist = new ArrayList<>();
+		float totalCost = 0.0f;
+		int qty = 0;
+		for (Integer mobileId : mobilesIds) {
+
+			Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
+			if (optMobiles.isEmpty()) {
+				throw new MobilesException("Mobile id " + mobileId + " does not exists !");
+			}
+			Mobiles mobile = optMobiles.get();
+			totalCost = totalCost + mobile.getMobileCost();
+			qty = qty + 1;
+			mobilelist.add(mobile);
+		}
+		orders.setMobiles(mobilelist);
+		orders.setCost(totalCost);
+		orders.setTotalCost(totalCost);
+		orders.setQuantity(qty);
+		return orderRepository.save(orders);
 	}
 
 	@Override
-	public Orders cancelOrder(int orderId) throws OrderNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public Orders cancelOrder(int orderId) throws OrderNotFoundException, OrdersException {
+		Optional<Orders> optOrder = this.orderRepository.findById(orderId);
+		if (optOrder.isEmpty())
+			throw new OrdersException("Order id does not exists to delete !");
+		Orders order = optOrder.get();
+		order.setOrderStatus("ORDER CANCELED");
+		this.orderRepository.save(order);
+		return order;
 	}
 
 	@Override
-	public List<Orders> showAllMobiles(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Orders getOrderById(Integer orderId) throws OrdersException {
+		Optional<Orders> optOrders = this.orderRepository.findById(orderId);
+		if (optOrders.isEmpty()) {
+			throw new OrdersException("Orders id " + orderId + " does not exists !");
+		}
 
-	@Override
-	public Orders getOrderById(Integer orderId) {
-		// TODO Auto-generated method stub
-		return null;
+		Orders orders = optOrders.get();
+		return orders;
 	}
 
 	@Override
 	public List<Orders> getAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return orderRepository.findAll();
 	}
-
-//	@Override
-//	public Orders updateOrder(Orders updateOrder) {
-//
-//		return this.orderRepository.save(updateOrder);
-//	}
-//
-//	@Override
-//	public Orders deleteOrderById(Integer orderId) throws OrdersException {
-//
-//		Optional<Orders> optOrder = this.orderRepository.findById(orderId);
-//		if (optOrder.isEmpty())
-//			throw new OrdersException("Order id does not exists to delete !");
-//		Orders order = optOrder.get();
-//		this.orderRepository.delete(order);
-//		return order;
-//	}
-//
-//	@Override
-//	public Orders getOrderById(Integer orderId) throws OrdersException {
-//		Optional<Orders> optOrder = orderRepository.findById(orderId);
-//		if (optOrder.isEmpty())
-//			throw new OrdersException("Order id not found :" + orderId);
-//
-//		return optOrder.get();
-//	}
-//
-//	@Override
-//	public List<Orders> getAllOrders() {
-//
-//		return orderRepository.findAll();
-//	}
-//
-////	@Override
-////	public Orders addOrderToUser(Orders order, Integer userId) throws UsersException {
-////		Optional<Users> user = userRepository.findById(userId);
-////		if (user.isEmpty()) {
-////			throw new UsersException("User not found");
-////		}
-////
-////		Users foundUser = user.get();
-////		Orders newOrder = addOrder(order);
-////		foundUser.getUserOrders().add(newOrder);
-////		orderRepository.save(newOrder);
-////		userRepository.save(foundUser);
-////		return null;
-////	}
-//
-////	@Override
-////	public Orders getOrdersFromCart(Payment payment, Integer userId) throws UsersException, CartException {
-////		Users user = userService.getUserByUserId(userId);
-////		Cart cart = cartService.getCartById(userId);
-////		Orders order = new Orders();
-////		order.setTotalCost(cart.getTotalCost());
-////		order.getBooks().addAll(cart.getBooksInCart());
-////		order.setOrderDate(LocalDate.now());
-////		order.setQuantity(cart.getQuantity());
-////		orderRepository.save(order);
-////		List<Orders> orderList = new ArrayList<>();
-////		orderList.add(order);
-////		user.setUserOrders(orderList);
-////		cart.getBooksInCart().removeAll(cart.getBooksInCart());
-////		this.cartRepository.save(cart);
-////		return orderRepository.save(order);
-////
-////	}
-//
-//	@Override
-//	public Order cancelOrder(int id) throws OrderNotFoundException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<Order> showAllMobiles(int id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public double calculateTotalCost(List<Mobiles> list) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-//
-//	@Override
-//	public Orders updateOrder(OrdersDto ordersDto) throws OrderNotFoundException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public Orders cancelOrder(int orderId) throws OrderNotFoundException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 }

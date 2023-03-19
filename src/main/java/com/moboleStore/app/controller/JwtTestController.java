@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class jwt_test_Controller {
+public class JwtTestController {
 	
 	@GetMapping("/")
 	public String home() {

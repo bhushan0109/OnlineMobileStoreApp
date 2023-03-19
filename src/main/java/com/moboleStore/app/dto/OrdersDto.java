@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class OrdersDto {
 
 	private Integer orderId;
@@ -15,6 +17,7 @@ public class OrdersDto {
 
 	@Min(value = 0, message = "totalCost should not be negative")
 	private Float totalCost;
+	@JsonIgnore
 	private String orderStatus;
 
 	private List<Integer> mobilesId;
