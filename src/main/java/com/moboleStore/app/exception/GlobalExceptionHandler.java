@@ -22,9 +22,5 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(NoSuchCustomerException.class)
-	public ResponseEntity<?> handleNoSuchCustomerException(NoSuchCustomerException ex, WebRequest request){
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-	}
+
 }
