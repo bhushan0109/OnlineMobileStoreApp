@@ -90,11 +90,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/**", // swagger-ui resources
 						"/configuration/**", // swagger configuration
 						"/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
-//				.permitAll().antMatchers("/cart/**").permitAll().antMatchers("/mobile/**").permitAll()
-//				.antMatchers("/admin/**", "/customer/**", "/order/**", "/authentication/**").permitAll()
-//				.antMatchers("/category/**").permitAll().anyRequest().authenticated();
-				.permitAll().antMatchers("/authentication/**").permitAll().antMatchers("/category/**").permitAll()
-				.anyRequest().authenticated();
+				// below three line to open project for  without jwt -- oppen all api
+				.permitAll().antMatchers("/cart/**").permitAll().antMatchers("/mobile/**").permitAll()
+				.antMatchers("/admin/**", "/customer/**", "/order/**", "/authentication/**").permitAll()
+				.antMatchers("/category/**").permitAll().anyRequest().authenticated();
+		
+		// below two line to open project for jwt
+//				.permitAll().antMatchers("/authentication/**").permitAll().antMatchers("/category/**").permitAll()
+//				.anyRequest().authenticated();
 
 // Custom JWT based security filter
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
