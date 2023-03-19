@@ -24,9 +24,6 @@ public class Category {
 
 	@Column(unique = true)
 	private String categoryName;
-	
-//	@OneToMany
-//	private List<Mobiles> newMobiles = new ArrayList<>();
 
 	public Category() {
 		super();

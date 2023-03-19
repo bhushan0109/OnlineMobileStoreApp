@@ -27,8 +27,6 @@ public class Cart {
 	@ManyToMany
 	private Set<Mobiles> mobilesInCart;
 
-	// private Set<Mobiles> mobiles = new HashSet<Mobiles>();
-
 	public Cart() {
 		super();
 	}

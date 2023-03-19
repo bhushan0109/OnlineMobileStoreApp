@@ -7,5 +7,4 @@ import com.moboleStore.app.entity.Admin;
 
 @Repository
 public interface AdminRespository extends JpaRepository<Admin, Integer>{
-  //        Admin findByEmail(String email);
 }
