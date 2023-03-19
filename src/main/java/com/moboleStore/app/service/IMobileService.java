@@ -17,5 +17,4 @@ public interface IMobileService {
 	public Mobiles deleteMobile(int mobileId) throws MobileNotFoundException;
 	public Mobiles showMobileById(int mobileId) throws MobileNotFoundException;
 	public List<Mobiles> showAllMobile();
-	public Mobiles addMobilesToCategoryByCategoryId(Integer categoryId, Integer mobileId) throws CategoryException, MobileNotFoundException;
 }

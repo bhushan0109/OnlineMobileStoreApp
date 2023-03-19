@@ -90,26 +90,4 @@ public class IMobileServiceImpl implements IMobileService {
 		return optMobiles.get();
 	}
 
-	@Override
-	public Mobiles addMobilesToCategoryByCategoryId(Integer categoryId, Integer mobileId)
-			throws CategoryException, MobileNotFoundException {
-		return null;
-//		Optional<Category> optCategory = this.categoryRepository.findById(categoryId);
-//		if (optCategory.isEmpty()) {
-//			throw new CategoryException("Cateogory doesn't exist for Id: " + categoryId);
-//		}
-//		
-//		Optional<Mobiles> optMobiles = iMobileRepository.findById(mobileId);
-//		if (optMobiles.isEmpty()) {
-//			throw new MobileNotFoundException("Mobile id not found: " + mobileId);
-//		}
-//
-//		Mobiles mobiles = optMobiles.get();
-//		Category foundCategory = optCategory.get();
-//		
-//		foundCategory.setNewMobiles(null);
-//		foundCategory.getNewMobiles().add(mobiles);
-//		this.categoryRepository.save(foundCategory);
-//		return mobiles;
-	}
 }

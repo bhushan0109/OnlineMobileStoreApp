@@ -12,9 +12,8 @@ import com.moboleStore.app.exception.UsersException;
 
 public interface IUserService {
 	public Users addUser(@Valid AddUserDto addUserDto) throws UsersException;
-	public Users updateUser(Users User) throws UserNotFoundException;
-	public Users removeUser(int userId) throws UserNotFoundException;
+	public AddUserDto updateUser(@Valid AddUserDto addUserDto) throws UserNotFoundException, UsersException;
+	public Users removeUser(int userId) throws UserNotFoundException, UsersException;
 	public List<Users> showAllUsers();
-	public boolean validateUser(int userid,String userName);
-	public Users getUserByUserId(Integer userId);
+	public AddUserDto getUserByUserId(Integer userId) throws UsersException;
 }

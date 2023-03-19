@@ -1,8 +1,5 @@
 package com.moboleStore.app.dto;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,8 +8,6 @@ import javax.validation.constraints.Size;
 
 public class AddUserDto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId;
 
 	@Pattern(regexp = "[a-zA-Z]{3,30}", message = "username should only contain characters and should be atleast a length of 3")

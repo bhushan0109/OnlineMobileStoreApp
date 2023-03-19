@@ -30,7 +30,6 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private AdminRespository adminRespository;
-	
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
@@ -69,33 +68,91 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public Users updateUser(Users User) throws UserNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public AddUserDto updateUser(AddUserDto addUserDto) throws UserNotFoundException, UsersException {
+		if (!(addUserDto.getRole().equals("User") || addUserDto.getRole().equals("Admin"))) {
+
+			throw new UsersException("ROLE should be User or Admin");
+		}
+		Optional<Users> findByUsername = iUserRepository.findByUsername(addUserDto.getUsername());
+		if (!findByUsername.isPresent()) {
+			throw new UsersException("Username NOT exists, try to login");
+		}
+
+		Users user = findByUsername.get();
+		BeanUtils.copyProperties(addUserDto, user);
+		if (addUserDto.getPassword() != null) {
+			user.setPassword(bcryptEncoder.encode(addUserDto.getPassword().trim()));
+		}
+		Users saveuser = iUserRepository.save(user);
+
+		if (addUserDto.getRole().equalsIgnoreCase("ADMIN")) {
+			Admin admin = new Admin();
+			admin.setId(saveuser.getUserId());
+			admin.setAdminame(addUserDto.getName());
+			adminRespository.save(admin);
+		} else {
+			Customer c = new Customer();
+			BeanUtils.copyProperties(addUserDto, c);
+			c.setCustomerName(addUserDto.getName());
+			c.setCustomerId(saveuser.getUserId());
+			iCustomerRepository.save(c);
+		}
+		return addUserDto;
 	}
 
 	@Override
-	public Users removeUser(int userId) throws UserNotFoundException {
-		// TODO Auto-generated method stub
+	public Users removeUser(int userId) throws UserNotFoundException, UsersException {
+		Optional<Users> optUsers = this.iUserRepository.findById(userId);
+		if (optUsers.isEmpty())
+			throw new UsersException("User id does not exists to delete !");
+		Users user = optUsers.get();
+		this.iUserRepository.delete(user);
 		return null;
 	}
 
 	@Override
 	public List<Users> showAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return iUserRepository.findAll();
 	}
 
 	@Override
-	public boolean validateUser(int userid, String userName) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public AddUserDto getUserByUserId(Integer userId) throws UsersException {
+		AddUserDto AddUserDto = new AddUserDto();
+		Optional<Users> optUsers = this.iUserRepository.findById(userId);
+		if (optUsers.isEmpty())
+			throw new UsersException("User id does not exists to delete !");
+		Users user = optUsers.get();
 
-	@Override
-	public Users getUserByUserId(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (user.getRole().equalsIgnoreCase("Admin")) {
+
+			AddUserDto.setAddress(null);
+			AddUserDto.setEmailId(null);
+			AddUserDto.setMobileNumber(null);
+			AddUserDto.setPassword(user.getPassword());
+			AddUserDto.setRole(user.getRole());
+			AddUserDto.setUserId(user.getUserId());
+			AddUserDto.setUsername(user.getUsername());
+			AddUserDto.setName(user.getUsername());
+
+		} else {
+
+			Optional<Customer> optCustomer = iCustomerRepository.findById(userId);
+			if (optCustomer.isEmpty()) {
+				throw new UsersException("CustomerId not found:" + userId);
+			}
+			Customer customer = optCustomer.get();
+
+			AddUserDto.setEmailId(customer.getEmailId());
+			AddUserDto.setMobileNumber(customer.getMobileNumber());
+			AddUserDto.setPassword(user.getPassword());
+			AddUserDto.setRole(user.getRole());
+			AddUserDto.setUserId(user.getUserId());
+			AddUserDto.setUsername(user.getUsername());
+			AddUserDto.setName(user.getUsername());
+
+		}
+
+		return AddUserDto;
 	}
 
 //	@Override

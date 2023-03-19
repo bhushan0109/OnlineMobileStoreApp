@@ -24,6 +24,7 @@ import com.moboleStore.app.service.IUserService;
 
 @RestController
 @CrossOrigin
+@RequestMapping("authentication")
 public class JwtAuthenticationController {
 
 	@Autowired
