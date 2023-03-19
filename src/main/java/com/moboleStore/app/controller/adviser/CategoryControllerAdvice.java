@@ -1,4 +1,4 @@
-package com.moboleStore.app.controller;
+package com.moboleStore.app.controller.adviser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,18 +10,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.moboleStore.app.exception.MobilesException;
+import com.moboleStore.app.exception.CategoryException;
 
 @RestControllerAdvice
+public class CategoryControllerAdvice {
 
-public class MobileControllerAdvice {
-
-	@ExceptionHandler(MobilesException.class)
+	@ExceptionHandler(CategoryException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public String handleBooksExceptions(MobilesException e) {
+	public String handleBooksExceptions(CategoryException e) {
 		return e.getMessage();
 	}
-
+	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -34,5 +33,4 @@ public class MobileControllerAdvice {
 		});
 		return errors;
 	}
-
 }

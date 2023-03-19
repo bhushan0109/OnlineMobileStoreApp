@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "orders")
 public class Orders {
@@ -25,9 +27,11 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer orderId;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent
 	private LocalDate orderDate;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent
 	private LocalDate dispachDate;
 	private Integer quantity;

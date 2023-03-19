@@ -2,20 +2,24 @@ package com.moboleStore.app.service;
 
 import java.util.List;
 
-import javax.persistence.criteria.Order;
-
-import com.moboleStore.app.entity.Mobiles;
+import com.moboleStore.app.dto.OrdersDto;
+import com.moboleStore.app.entity.Orders;
+import com.moboleStore.app.exception.MobilesException;
 import com.moboleStore.app.exception.OrderNotFoundException;
+import com.moboleStore.app.exception.UsersException;
 
 public interface IOrderService {
 
-	public Order addOrder(Order order);
+	public Orders addOrder(OrdersDto ordersDto) throws UsersException, MobilesException;
 
-	public Order updateOrder(Order order) throws OrderNotFoundException;
+	public Orders updateOrder(OrdersDto ordersDto) throws OrderNotFoundException;
 
-	public Order cancelOrder(int id) throws OrderNotFoundException;
+	public Orders cancelOrder(int orderId) throws OrderNotFoundException;
 
-	public List<Order> showAllMobiles(int id);
+	public List<Orders> showAllMobiles(int id);
 
-	public double calculateTotalCost(List<Mobiles> list);
+	public Orders getOrderById(Integer orderId);
+
+	public List<Orders> getAllOrders();
+
 }

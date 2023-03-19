@@ -15,7 +15,7 @@ import com.moboleStore.app.exception.CartException;
 import com.moboleStore.app.exception.MobileNotFoundException;
 import com.moboleStore.app.exception.MobilesException;
 import com.moboleStore.app.exception.UsersException;
-import com.moboleStore.app.repositiory.CartRepository;
+import com.moboleStore.app.repositiory.ICartRepository;
 import com.moboleStore.app.repositiory.ICustomerRepository;
 import com.moboleStore.app.repositiory.IMobileRepository;
 import com.moboleStore.app.repositiory.IUserRepository;
@@ -23,7 +23,7 @@ import com.moboleStore.app.repositiory.IUserRepository;
 @Service
 public class CartServiceImpl implements ICartService {
 	@Autowired
-	private CartRepository cartRepository;
+	private ICartRepository cartRepository;
 	@Autowired
 	private IMobileRepository iMobileRepository;
 
@@ -49,7 +49,7 @@ public class CartServiceImpl implements ICartService {
 	public Cart deleteCartById(Integer cartId) throws CartException {
 		Optional<Cart> optCarts = this.cartRepository.findById(cartId);
 		if (optCarts.isEmpty())
-			throw new CartException("Customer id is not exists to delete !");
+			throw new CartException("card id is not exists to delete !");
 		Cart cart = optCarts.get();
 		List<Mobiles> mobilesInCart = cart.getMobilesInCart();
 		mobilesInCart.removeAll(mobilesInCart);
