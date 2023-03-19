@@ -40,9 +40,6 @@ public class Users {
 		super();
 	}
 
-	@OneToOne
-	private Cart cart;
-
 	public Integer getUserId() {
 		return userId;
 	}
@@ -67,7 +64,6 @@ public class Users {
 		this.role = role;
 	}
 
-
 	public String getPassword() {
 		return password;
 	}
@@ -76,29 +72,17 @@ public class Users {
 		this.password = password;
 	}
 
-
-	public Cart getCart() {
-		return cart;
-	}
-
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
-
 	@Override
 	public String toString() {
-		return "Users [userId=" + userId + ", username=" + username + ", role=" + role 
-				+ ", password=" + password + ", cart=" + cart + "]";
+		return "Users [userId=" + userId + ", username=" + username + ", role=" + role + ", password=" + password + "]";
 	}
 
-	public Users(Integer userId, String username, String role, String password, Cart cart) {
+	public Users(Integer userId, String username, String role, String password) {
 		super();
 		this.userId = userId;
 		this.username = username;
 		this.role = role;
 		this.password = password;
-		this.cart = cart;
 	}
-
 
 }

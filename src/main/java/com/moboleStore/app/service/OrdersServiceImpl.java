@@ -5,17 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.Order;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.moboleStore.app.dto.OrdersDto;
 import com.moboleStore.app.entity.Cart;
 import com.moboleStore.app.entity.Customer;
 import com.moboleStore.app.entity.Mobiles;
 import com.moboleStore.app.entity.Orders;
-import com.moboleStore.app.entity.Users;
 import com.moboleStore.app.exception.CartException;
 import com.moboleStore.app.exception.MobilesException;
 import com.moboleStore.app.exception.OrderNotFoundException;
@@ -25,16 +21,12 @@ import com.moboleStore.app.repositiory.ICartRepository;
 import com.moboleStore.app.repositiory.ICustomerRepository;
 import com.moboleStore.app.repositiory.IMobileRepository;
 import com.moboleStore.app.repositiory.IOrderRepository;
-import com.moboleStore.app.repositiory.IUserRepository;
 
 @Service
 public class OrdersServiceImpl implements IOrderService {
 
 	@Autowired
 	private IOrderRepository iorderRepository;
-
-	@Autowired
-	private IUserRepository iuserRepository;
 
 	@Autowired
 	private IMobileRepository iMobileRepository;
@@ -159,6 +151,10 @@ public class OrdersServiceImpl implements IOrderService {
 
 		List<Mobiles> mobilesInCart = foundCart.getMobilesInCart();
 
+		if (mobilesInCart.isEmpty()) {
+			throw new CartException("mobilesInCart not found: " + mobilesInCart.size());
+		}
+
 		newOrder.setCustomer(optCustomer.get());
 		float totalCost = 0.0f;
 		int qty = 0;
@@ -171,7 +167,7 @@ public class OrdersServiceImpl implements IOrderService {
 		newOrder.setTotalCost(totalCost);
 		newOrder.setQuantity(qty);
 		newOrder.setOrderStatus("ORDER PLACED");
-
+		Orders saveorder = iorderRepository.save(newOrder);
 		// cart removed step after order placed
 
 		mobilesInCart.removeAll(mobilesInCart);
@@ -179,7 +175,7 @@ public class OrdersServiceImpl implements IOrderService {
 		foundCart.setTotalCost(0.0f);
 		Cart cartsave = icartRepository.save(foundCart);
 
-		return iorderRepository.save(newOrder);
+		return iorderRepository.save(saveorder);
 
 	}
 

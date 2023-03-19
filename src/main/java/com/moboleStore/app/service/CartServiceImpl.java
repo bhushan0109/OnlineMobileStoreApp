@@ -2,36 +2,31 @@ package com.moboleStore.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.moboleStore.app.entity.Cart;
+import com.moboleStore.app.entity.Customer;
 import com.moboleStore.app.entity.Mobiles;
-import com.moboleStore.app.entity.Users;
 import com.moboleStore.app.exception.CartException;
-import com.moboleStore.app.exception.MobileNotFoundException;
 import com.moboleStore.app.exception.MobilesException;
 import com.moboleStore.app.exception.UsersException;
 import com.moboleStore.app.repositiory.ICartRepository;
 import com.moboleStore.app.repositiory.ICustomerRepository;
 import com.moboleStore.app.repositiory.IMobileRepository;
-import com.moboleStore.app.repositiory.IUserRepository;
 
 @Service
 public class CartServiceImpl implements ICartService {
 	@Autowired
 	private ICartRepository cartRepository;
+
 	@Autowired
 	private IMobileRepository iMobileRepository;
 
 	@Autowired
 	private ICustomerRepository iCustomerRepository;
-
-	@Autowired
-	private IUserRepository iUserRepository;
 
 	@Override
 	public Cart updateCart(Cart cart) throws CartException {
@@ -58,13 +53,12 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
-	public Cart getCartByUserId(Integer userId) throws UsersException {
-		Optional<Users> optUser = iUserRepository.findById(userId);
-		if (optUser.isEmpty()) {
-			throw new UsersException("User id not found:" + userId);
+	public Cart getCartByUserId(Integer customerId) throws UsersException {
+		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
+		if (optCustomer.isEmpty()) {
+			throw new UsersException("CustomerId not found:" + customerId);
 		}
-
-		return optUser.get().getCart();
+		return optCustomer.get().getCart();
 	}
 
 	@Override
@@ -104,12 +98,12 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
-	public Cart addMobileToCartByUserId(Integer mobileId, Integer userId)
+	public Cart addMobileToCartBycustomerId(Integer mobileId, Integer customerId)
 			throws UsersException, CartException, MobilesException {
 		Cart cart = null;
-		Optional<Users> optUser = iUserRepository.findById(userId);
-		if (optUser.isEmpty()) {
-			throw new UsersException("User id not found:" + userId);
+		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
+		if (optCustomer.isEmpty()) {
+			throw new UsersException("CustomerId not found:" + customerId);
 		}
 
 		Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
@@ -118,7 +112,7 @@ public class CartServiceImpl implements ICartService {
 		}
 		Mobiles mobile = optMobiles.get();
 
-		if (optUser.get().getCart() == null) {
+		if (optCustomer.get().getCart() == null) {
 			List<Mobiles> mobilelist = new ArrayList<>();
 			mobilelist.add(mobile);
 			cart = new Cart();
@@ -127,7 +121,7 @@ public class CartServiceImpl implements ICartService {
 			cart.setMobilesInCart(mobilelist);
 		} else {
 
-			cart = optUser.get().getCart();
+			cart = optCustomer.get().getCart();
 			List<Mobiles> mobilesInCart = cart.getMobilesInCart();
 			Float totalCost = cart.getTotalCost();
 			Integer quantity = cart.getQuantity();
@@ -139,9 +133,9 @@ public class CartServiceImpl implements ICartService {
 
 		}
 		Cart savecart = cartRepository.save(cart);
-		Users users = optUser.get();
-		users.setCart(savecart);
-		iUserRepository.save(users); // new card added with one mobile added
+		Customer customer = optCustomer.get();
+		customer.setCart(savecart);
+		iCustomerRepository.save(customer); // new card added with one mobile added
 		return cart;
 
 	}

@@ -21,7 +21,8 @@ public interface ICartService {
 
 	Cart removeMobilefromCartByIds(Integer mobileId, Integer cartId) throws CartException, MobilesException;
 
-	Cart addMobileToCartByUserId(Integer bookId, Integer userId) throws  UsersException, CartException, MobilesException;
+	Cart addMobileToCartBycustomerId(Integer mobileId, Integer customerId) throws  UsersException, CartException, MobilesException;
+
 
 	
 }

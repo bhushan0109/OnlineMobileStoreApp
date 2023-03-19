@@ -22,11 +22,11 @@ public class CartController {
 	@Autowired
 	private ICartService cartService;
 
-	@PostMapping("/add/{userid}/{mobieId}")
-	public Cart addMobileToCartByUserId(@PathVariable("mobieId") Integer mobieId,
-			@PathVariable("userid") Integer userId) throws CartException, UsersException, MobilesException {
+	@PostMapping("/add/{customerId}/{mobileId}")
+	public Cart addMobileToCartBycustomerId(@PathVariable("mobileId") Integer mobileId,
+			@PathVariable("customerId") Integer customerId) throws CartException, UsersException, MobilesException {
 
-		return cartService.addMobileToCartByUserId(mobieId, userId);
+		return cartService.addMobileToCartBycustomerId(mobileId, customerId);
 	}
 
 	@DeleteMapping("/delete/{cartId}")
@@ -35,10 +35,10 @@ public class CartController {
 		return cartService.deleteCartById(cartId);
 	}
 
-	@GetMapping("/mobilesincart/{userId}")
-	public Cart getCartByUserId(@PathVariable("userId") Integer userId) throws CartException, UsersException {
+	@GetMapping("/mobilesincart/{customerId}")
+	public Cart getCartByUserId(@PathVariable("customerId") Integer customerId) throws CartException, UsersException {
 
-		return cartService.getCartByUserId(userId);
+		return cartService.getCartByUserId(customerId);
 	}
 
 	@GetMapping("/carts")
