@@ -13,7 +13,7 @@
 	<artifactId>OnlineMobileStoreApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>OnlineMobileStoreApp</name>
-	<description>Building the BookStoreApplication </description>
+	<description>Building the OnlineMobileStoreApp </description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
