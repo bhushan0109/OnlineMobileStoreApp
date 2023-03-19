@@ -150,6 +150,7 @@ public class OrdersServiceImpl implements IOrderService {
 		Cart foundCart = optCart.get();
 
 		List<Mobiles> mobilesInCart = foundCart.getMobilesInCart();
+		List<Mobiles> mobilelist = new ArrayList<>();
 
 		if (mobilesInCart.isEmpty()) {
 			throw new CartException("mobilesInCart not found: " + mobilesInCart.size());
@@ -159,15 +160,17 @@ public class OrdersServiceImpl implements IOrderService {
 		float totalCost = 0.0f;
 		int qty = 0;
 		for (Mobiles mobile : mobilesInCart) {
+			mobilelist.add(mobile);
 			totalCost = totalCost + mobile.getMobileCost();
 			qty = qty + 1;
 		}
-		newOrder.setMobiles(mobilesInCart);
+		newOrder.setMobiles(mobilelist);
 		newOrder.setCost(totalCost);
 		newOrder.setTotalCost(totalCost);
 		newOrder.setQuantity(qty);
 		newOrder.setOrderStatus("ORDER PLACED");
 		Orders saveorder = iorderRepository.save(newOrder);
+
 		// cart removed step after order placed
 
 		mobilesInCart.removeAll(mobilesInCart);
@@ -175,7 +178,7 @@ public class OrdersServiceImpl implements IOrderService {
 		foundCart.setTotalCost(0.0f);
 		Cart cartsave = icartRepository.save(foundCart);
 
-		return iorderRepository.save(saveorder);
+		return saveorder;
 
 	}
 

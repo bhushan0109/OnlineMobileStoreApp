@@ -17,6 +17,9 @@ public class AddUserDto {
 
 	@Pattern(regexp = "[a-zA-Z]{3,30}", message = "username should only contain characters and should be atleast a length of 3")
 	private String username;
+	
+	@Pattern(regexp = "[a-zA-Z]{3,30}", message = "username should only contain characters and should be atleast a length of 3")
+	private String name;
 
 	@Pattern(regexp = "[a-zA-Z]{3,30}", message = "role should only contain characters and should be atleast a length of 3")
 	private String role;
@@ -92,10 +95,19 @@ public class AddUserDto {
 		this.address = address;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public String toString() {
-		return "AddUserDto [userId=" + userId + ", username=" + username + ", role=" + role + ", emailId=" + emailId
-				+ ", mobileNumber=" + mobileNumber + ", password=" + password + ", address=" + address + "]";
+		return "AddUserDto [userId=" + userId + ", username=" + username + ", name=" + name + ", role=" + role
+				+ ", emailId=" + emailId + ", mobileNumber=" + mobileNumber + ", password=" + password + ", address="
+				+ address + "]";
 	}
 
 }

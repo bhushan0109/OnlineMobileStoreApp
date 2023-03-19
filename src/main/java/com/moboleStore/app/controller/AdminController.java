@@ -23,7 +23,7 @@ import com.moboleStore.app.service.CategoryService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("Admin")
+@RequestMapping("admin")
 public class AdminController {
 
 	@Autowired

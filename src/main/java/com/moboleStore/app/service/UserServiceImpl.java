@@ -55,11 +55,12 @@ public class UserServiceImpl implements IUserService {
 		if (addUserDto.getRole().equalsIgnoreCase("ADMIN")) {
 			Admin admin = new Admin();
 			admin.setId(saveuser.getUserId());
-			admin.setAdminame(user.getUsername());
+			admin.setAdminame(addUserDto.getName());
 			adminRespository.save(admin);
 		} else {
 			Customer c = new Customer();
 			BeanUtils.copyProperties(addUserDto, c);
+			c.setCustomerName(addUserDto.getName());
 			c.setCustomerId(saveuser.getUserId());
 			iCustomerRepository.save(c);
 		}

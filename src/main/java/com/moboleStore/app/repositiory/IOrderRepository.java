@@ -12,14 +12,4 @@ import com.moboleStore.app.exception.OrderNotFoundException;
 @Repository
 public interface IOrderRepository extends JpaRepository<Orders, Integer> {
 
-//	public Orders addOrder(Orders order);
-//
-//	public Orders updateOrder(Orders order) throws OrderNotFoundException;
-//
-//	public Orders cancelOrder(int id) throws OrderNotFoundException;
-//
-//	public List<Orders> showAllMobiles(int id);
-//
-//	public double calculateTotalCost(List<Mobiles> list);
-
 }
