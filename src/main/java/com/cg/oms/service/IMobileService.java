@@ -1,7 +1,5 @@
 package com.cg.oms.service;
 
-
-
 import java.text.ParseException;
 import java.util.List;
 
@@ -13,8 +11,21 @@ import com.cg.oms.exception.MobilesException;
 public interface IMobileService {
 
 	public Mobiles addMobile(Mobiles mobile) throws ParseException, CategoryException;
-	public Mobiles updateMobile(Mobiles mobile) throws  MobilesException, ParseException, CategoryException;
+
+	public Mobiles updateMobile(Mobiles mobile) throws MobilesException, ParseException, CategoryException;
+
 	public Mobiles deleteMobile(int mobileId) throws MobileNotFoundException;
+
 	public Mobiles showMobileById(int mobileId) throws MobileNotFoundException;
+
 	public List<Mobiles> showAllMobile();
+
+	public List<Mobiles> findMobileByString(String searchString, String type) throws MobileNotFoundException;
+
+	public List<Mobiles> findMobileByRam(String searchString, String type);
+
+	public List<Mobiles> findByMobileCostGreaterThan(String price);
+
+	public List<Mobiles> findByMobileCostLessThan(String price);
+
 }
