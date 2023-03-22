@@ -22,8 +22,11 @@ public interface IMobileRepository extends JpaRepository<Mobiles, Integer> {
 	public List<Mobiles> findMobileBycompany_nameAndmobile_nameAndmodel_number(
 			@Param("searchString") String searchString);
 
-	@Query(value = "SELECT * FROM mobiles WHERE cast(mobileram as varchar) LIKE  %:searchString% or cast(battety as varchar) LIKE  %:ram%  or cast(comera_pixcel as varchar) LIKE  %:searchString% ", nativeQuery = true)
+	@Query(value = "SELECT * FROM mobiles WHERE cast(mobileram as varchar) LIKE  %:searchString% or cast(battery as varchar) LIKE  %:searchString%  or cast(camera_pixcel as varchar) LIKE  %:searchString% ", nativeQuery = true)
 	public List<Mobiles> findMobileByRAM_camera_battery(String searchString);
+	
+	@Query(value = "SELECT * FROM mobiles WHERE cast(mobileram as varchar) LIKE  %:searchString% ", nativeQuery = true)
+	public List<Mobiles> findMobileByRAM(String searchString);
 
 	List<Mobiles> findByMobileCostGreaterThan(Float price);
 

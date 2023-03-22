@@ -43,12 +43,12 @@ public class IMobileServiceImpl implements IMobileService {
 		if (findByCategoryName == null) {
 			// defauls catecory set
 			Category category = new Category();
-			category.setCategoryName("smartphone");
+			category.setCategoryName(mobile.getCategory().getCategoryName());
 			Category saveCategory = categoryRepository.save(category);
 			mobile.setCategory(saveCategory);
 //			throw new CategoryException("CategoryName " + mobile.getCategory().getCategoryName() + " not exists !");
 		} else {
-
+			mobile.setCategory(findByCategoryName);
 		}
 
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mobile.getMfDate().toString());
@@ -114,8 +114,8 @@ public class IMobileServiceImpl implements IMobileService {
 			return modifylist;
 		}
 
-		if (type.equalsIgnoreCase("mobileRAM") || type.equalsIgnoreCase("battety")
-				|| type.equalsIgnoreCase("comeraPixcel")) {
+		if (type.equalsIgnoreCase("mobileRAM") || type.equalsIgnoreCase("battery")
+				|| type.equalsIgnoreCase("cameraPixcel")) {
 			flag=true; //type is valid
 			modifylist = iMobileRepository.findMobileByRAM_camera_battery(searchString);
 			return modifylist;
@@ -128,7 +128,7 @@ public class IMobileServiceImpl implements IMobileService {
 			return modifylist;
 		}
 		if(flag == false) {
-			throw new MobileNotFoundException("Mobile type should be, mobileName, modelNumber, companyName, mobileRAM , battety, comeraPixcel, mobileCost " );
+			throw new MobileNotFoundException("Mobile type should be, mobileName, modelNumber, companyName, mobileRAM , battery, cameraPixcel, mobileCost " );
 		}
 
 		return modifylist;
@@ -137,7 +137,7 @@ public class IMobileServiceImpl implements IMobileService {
 	@Override
 	public List<Mobiles> findMobileByRam(String searchString, String type) {
 		List<Mobiles> modifylist = new ArrayList<Mobiles>();
-		modifylist = iMobileRepository.findMobileByRAM_camera_battery(searchString);
+		modifylist = iMobileRepository.findMobileByRAM(searchString);
 		return modifylist;
 	}
 

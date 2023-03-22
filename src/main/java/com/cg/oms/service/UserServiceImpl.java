@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 
 import com.cg.oms.dto.AddUserDto;
 import com.cg.oms.entity.Admin;
+import com.cg.oms.entity.Cart;
 import com.cg.oms.entity.Customer;
 import com.cg.oms.entity.Users;
 import com.cg.oms.exception.CartException;
 import com.cg.oms.exception.UserNotFoundException;
 import com.cg.oms.exception.UsersException;
 import com.cg.oms.repositiory.AdminRespository;
+import com.cg.oms.repositiory.ICartRepository;
 import com.cg.oms.repositiory.ICustomerRepository;
 import com.cg.oms.repositiory.IUserRepository;
 
@@ -31,7 +33,8 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private AdminRespository adminRespository;
-
+	@Autowired
+	private ICartRepository cartRepository;
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 
@@ -62,6 +65,13 @@ public class UserServiceImpl implements IUserService {
 			BeanUtils.copyProperties(addUserDto, c);
 			c.setCustomerName(addUserDto.getName());
 			c.setCustomerId(saveuser.getUserId());
+			
+			Cart cart= new Cart();
+			cart.setMobilesInCart(null);
+			cart.setQuantity(0);
+			cart.setTotalCost(0.f);
+			Cart savecart = cartRepository.save(cart);
+			c.setCart(savecart);
 			iCustomerRepository.save(c);
 		}
 

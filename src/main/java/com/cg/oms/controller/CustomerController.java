@@ -60,12 +60,13 @@ public class CustomerController {
 //    public List<AddUserDto> allCustomer() throws UsersException {
 //        return iUserService.showAllCustomer();
 	// }
-//	@GetMapping("/mobilesincart/{customerId}")
-//	@PreAuthorize("hasAuthority('User')")
-//	public Cart getCartByUserId(@PathVariable("customerId") Integer customerId) throws CartException, UsersException {
-//
-//		return cartService.getCartByUserId(customerId);
-//	}
+	
+	@GetMapping("/mobilesincart/{customerId}")
+	@PreAuthorize("hasAuthority('User')")
+	public Cart getCartByUserId(@PathVariable("customerId") Integer customerId) throws CartException, UsersException {
+
+		return cartService.getCartByUserId(customerId);
+	}
 
 	@GetMapping("/carts")
 	@PreAuthorize("hasAuthority('User')")

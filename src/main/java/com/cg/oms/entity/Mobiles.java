@@ -37,11 +37,10 @@ public class Mobiles {
 	@NotBlank(message = "companyName name is needed")
 	private String companyName;
 
-	private int comeraPixcel;
-
+	private int cameraPixcel;
 	private int mobileRAM;
 
-	private int battety;
+	private int battery;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "categoryId")
@@ -96,11 +95,11 @@ public class Mobiles {
 	}
 
 	public int getComeraPixcel() {
-		return comeraPixcel;
+		return cameraPixcel;
 	}
 
 	public void setComeraPixcel(int comeraPixcel) {
-		this.comeraPixcel = comeraPixcel;
+		this.cameraPixcel = comeraPixcel;
 	}
 
 	public int getMobileRAM() {
@@ -112,11 +111,11 @@ public class Mobiles {
 	}
 
 	public int getBattety() {
-		return battety;
+		return battery;
 	}
 
-	public void setBattety(int battety) {
-		this.battety = battety;
+	public void setBattety(int battery) {
+		this.battery = battery;
 	}
 
 	public Category getCategory() {
@@ -131,20 +130,15 @@ public class Mobiles {
 	public String toString() {
 		return "Mobiles [mobileId=" + mobileId + ", mobileName=" + mobileName + ", mobileCost=" + mobileCost
 				+ ", mfDate=" + mfDate + ", modelNumber=" + modelNumber + ", companyName=" + companyName
-				+ ", comeraPixcel=" + comeraPixcel + ", mobileRAM=" + mobileRAM + ", battety=" + battety + ", category="
+				+ ", cameraPixcel=" + cameraPixcel + ", mobileRAM=" + mobileRAM + ", battery=" + battery + ", category="
 				+ category + "]";
-	}
-
-	public Mobiles() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Mobiles(int mobileId, @NotBlank(message = "mobileName name is needed") String mobileName,
 			@Min(value = 0, message = "mobileCost must be greater than 0") Float mobileCost, LocalDate mfDate,
 			@NotBlank(message = "modelNumber name is needed") String modelNumber,
-			@NotBlank(message = "companyName name is needed") String companyName, int comeraPixcel, int mobileRAM,
-			int battety, Category category) {
+			@NotBlank(message = "companyName name is needed") String companyName, int cameraPixcel, int mobileRAM,
+			int battery, Category category) {
 		super();
 		this.mobileId = mobileId;
 		this.mobileName = mobileName;
@@ -152,11 +146,17 @@ public class Mobiles {
 		this.mfDate = mfDate;
 		this.modelNumber = modelNumber;
 		this.companyName = companyName;
-		this.comeraPixcel = comeraPixcel;
+		this.cameraPixcel = cameraPixcel;
 		this.mobileRAM = mobileRAM;
-		this.battety = battety;
+		this.battery = battery;
 		this.category = category;
 	}
+
+	public Mobiles() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 }
