@@ -56,6 +56,7 @@ public class JwtAuthenticationController {
 		}
 		final String token = jwtTokenUtil.generateToken(userDetails);
          System.out.println("Get Authorities :"+userDetails.getAuthorities());
+         
 		return ResponseEntity.ok(new JwtResponse("Bearer "+token,userDetails.getAuthorities().toString(),user.get().getUserId()));
 	}
 
