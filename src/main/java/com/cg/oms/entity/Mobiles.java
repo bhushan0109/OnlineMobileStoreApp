@@ -46,93 +46,7 @@ public class Mobiles {
 	@JoinColumn(name = "categoryId")
 	private Category category;
 
-	public int getMobileId() {
-		return mobileId;
-	}
 
-	public void setMobileId(Integer mobileId) {
-		this.mobileId = mobileId;
-	}
-
-	public String getMobileName() {
-		return mobileName;
-	}
-
-	public void setMobileName(String mobileName) {
-		this.mobileName = mobileName;
-	}
-
-	public Float getMobileCost() {
-		return mobileCost;
-	}
-
-	public void setMobileCost(Float mobileCost) {
-		this.mobileCost = mobileCost;
-	}
-
-	public LocalDate getMfDate() {
-		return mfDate;
-	}
-
-	public void setMfDate(LocalDate mfDate) {
-		this.mfDate = mfDate;
-	}
-
-	public String getModelNumber() {
-		return modelNumber;
-	}
-
-	public void setModelNumber(String modelNumber) {
-		this.modelNumber = modelNumber;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public int getComeraPixcel() {
-		return cameraPixcel;
-	}
-
-	public void setComeraPixcel(int comeraPixcel) {
-		this.cameraPixcel = comeraPixcel;
-	}
-
-	public int getMobileRAM() {
-		return mobileRAM;
-	}
-
-	public void setMobileRAM(int mobileRAM) {
-		this.mobileRAM = mobileRAM;
-	}
-
-	public int getBattety() {
-		return battery;
-	}
-
-	public void setBattety(int battery) {
-		this.battery = battery;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	@Override
-	public String toString() {
-		return "Mobiles [mobileId=" + mobileId + ", mobileName=" + mobileName + ", mobileCost=" + mobileCost
-				+ ", mfDate=" + mfDate + ", modelNumber=" + modelNumber + ", companyName=" + companyName
-				+ ", cameraPixcel=" + cameraPixcel + ", mobileRAM=" + mobileRAM + ", battery=" + battery + ", category="
-				+ category + "]";
-	}
 
 	public Mobiles(int mobileId, @NotBlank(message = "mobileName name is needed") String mobileName,
 			@Min(value = 0, message = "mobileCost must be greater than 0") Float mobileCost, LocalDate mfDate,
@@ -151,6 +65,128 @@ public class Mobiles {
 		this.battery = battery;
 		this.category = category;
 	}
+
+
+
+	public int getMobileId() {
+		return mobileId;
+	}
+
+
+
+	public void setMobileId(int mobileId) {
+		this.mobileId = mobileId;
+	}
+
+
+
+	public String getMobileName() {
+		return mobileName;
+	}
+
+
+
+	public void setMobileName(String mobileName) {
+		this.mobileName = mobileName;
+	}
+
+
+
+	public Float getMobileCost() {
+		return mobileCost;
+	}
+
+
+
+	public void setMobileCost(Float mobileCost) {
+		this.mobileCost = mobileCost;
+	}
+
+
+
+	public LocalDate getMfDate() {
+		return mfDate;
+	}
+
+
+
+	public void setMfDate(LocalDate mfDate) {
+		this.mfDate = mfDate;
+	}
+
+
+
+	public String getModelNumber() {
+		return modelNumber;
+	}
+
+
+
+	public void setModelNumber(String modelNumber) {
+		this.modelNumber = modelNumber;
+	}
+
+
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+
+
+	public int getCameraPixcel() {
+		return cameraPixcel;
+	}
+
+
+
+	public void setCameraPixcel(int cameraPixcel) {
+		this.cameraPixcel = cameraPixcel;
+	}
+
+
+
+	public int getMobileRAM() {
+		return mobileRAM;
+	}
+
+
+
+	public void setMobileRAM(int mobileRAM) {
+		this.mobileRAM = mobileRAM;
+	}
+
+
+
+	public int getBattery() {
+		return battery;
+	}
+
+
+
+	public void setBattery(int battery) {
+		this.battery = battery;
+	}
+
+
+
+	public Category getCategory() {
+		return category;
+	}
+
+
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+
 
 	public Mobiles() {
 		super();

@@ -185,4 +185,14 @@ public class OrdersServiceImpl implements IOrderService {
 
 	}
 
+	@Override
+	public List<Orders> getOrderByCustomerId(Integer customerId) throws UsersException {
+		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
+		if (optCustomer.isEmpty()) {
+			throw new UsersException("CustomerId not found:" + customerId);
+		}
+		List<Orders> userOrders = optCustomer.get().getUserOrders();
+		return userOrders;
+	}
+
 }
