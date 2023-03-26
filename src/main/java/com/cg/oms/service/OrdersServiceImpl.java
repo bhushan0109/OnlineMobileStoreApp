@@ -191,7 +191,9 @@ public class OrdersServiceImpl implements IOrderService {
 		if (optCustomer.isEmpty()) {
 			throw new UsersException("CustomerId not found:" + customerId);
 		}
-		List<Orders> userOrders = optCustomer.get().getUserOrders();
+		
+		List<Orders> userOrders  = iorderRepository.findOrderByCostomerId(customerId);
+		//List<Orders> userOrders = optCustomer.get().getUserOrders();
 		return userOrders;
 	}
 
