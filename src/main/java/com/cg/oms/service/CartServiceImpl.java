@@ -33,7 +33,7 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public Cart updateCart(Cart cart) throws CartException {
 		Optional<Cart> optCarts = cartRepository.findById(cart.getCartId());
-		if (optCarts.isEmpty()) {
+		if (!optCarts.isPresent()) {
 			throw new CartException("Cart id not found:" + cart.getCartId());
 		}
 		return cartRepository.save(cart);
@@ -42,7 +42,7 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public Cart deleteCartById(Integer cartId) throws CartException {
 		Optional<Cart> optCarts = this.cartRepository.findById(cartId);
-		if (optCarts.isEmpty())
+		if (!optCarts.isPresent())
 			throw new CartException("card id is not exists to delete !");
 		Cart cart = optCarts.get();
 		Set<Mobiles> mobilesInCart = cart.getMobilesInCart();
@@ -57,7 +57,7 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public Cart getCartByUserId(Integer customerId) throws UsersException {
 		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
-		if (optCustomer.isEmpty()) {
+		if (!optCustomer.isPresent()) {
 			throw new UsersException("CustomerId not found:" + customerId);
 		}
 		return optCustomer.get().getCart();
@@ -66,13 +66,13 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public Cart removeMobilefromCartByIds(Integer mobileId, Integer cartId) throws CartException, MobilesException {
 		Optional<Cart> optCart = this.cartRepository.findById(cartId);
-		if (optCart.isEmpty())
+		if (!optCart.isPresent())
 			throw new CartException("cart id does not exists to delete ");
 
 		Cart foundCart = optCart.get();
 
 		Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
-		if (optMobiles.isEmpty()) {
+		if (!optMobiles.isPresent()) {
 			throw new MobilesException("Mobile id " + mobileId + " does not exists !");
 		}
 		Mobiles delmobile = optMobiles.get();
@@ -104,12 +104,12 @@ public class CartServiceImpl implements ICartService {
 			throws UsersException, CartException, MobilesException {
 		Cart cart = null;
 		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
-		if (optCustomer.isEmpty()) {
+		if (!optCustomer.isPresent()) {
 			throw new UsersException("CustomerId not found:" + customerId);
 		}
 
 		Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
-		if (optMobiles.isEmpty()) {
+		if (!optMobiles.isPresent()) {
 			throw new MobilesException("Mobile id " + mobileId + " does not exists !");
 		}
 		Mobiles mobile = optMobiles.get();

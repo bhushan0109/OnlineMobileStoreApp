@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category getCategoryById(int CategoryId) throws CategoryException {
 		Optional<Category> optCategories = categoryRepository.findById(CategoryId);
-		if (optCategories.isEmpty()) {
+		if (!optCategories.isPresent()) {
 			throw new CategoryException("Category id is not found: " + CategoryId);
 		}
 		return optCategories.get();
@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category deleteCategoryById(int categoryId) throws CategoryException {
 		Optional<Category> optCategories = this.categoryRepository.findById(categoryId);
-		if (optCategories.isEmpty())
+		if (!optCategories.isPresent())
 			throw new CategoryException("Category id does not exists to delete ");
 		Category category = optCategories.get();
 		this.categoryRepository.delete(category);
@@ -76,13 +76,12 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Mobiles> getMobilesByCategoryId(int categoryId) throws CategoryException {
 
 		Optional<Category> optCategories = this.categoryRepository.findById(categoryId);
-		if (optCategories.isEmpty())
+		if (!optCategories.isPresent())
 			throw new CategoryException("Category id does not exists to delete ");
 
 		List<Mobiles> list = iMobileRepository.findbyCategory(optCategories.get().getCategoryId());
 		return list;
 	}
-
 
 	@Override
 	public List<Category> getAllCategories() {
