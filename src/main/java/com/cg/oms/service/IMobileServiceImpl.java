@@ -69,7 +69,7 @@ public class IMobileServiceImpl implements IMobileService {
 		}
 
 		Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobile.getMobileId());
-		if (optMobiles.isEmpty())
+		if (!optMobiles.isPresent())
 			throw new MobilesException("Mobile id " + mobile.getMobileId() + " does not exists to delete !");
 
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mobile.getMfDate().toString());
@@ -82,7 +82,7 @@ public class IMobileServiceImpl implements IMobileService {
 	@Override
 	public Mobiles deleteMobile(int mobileId) throws MobileNotFoundException {
 		Optional<Mobiles> optBooks = this.iMobileRepository.findById(mobileId);
-		if (optBooks.isEmpty())
+		if (!optBooks.isPresent())
 			throw new MobileNotFoundException("Mobiles id " + mobileId + " does not exists to delete !");
 		Mobiles obj = optBooks.get();
 		this.iMobileRepository.delete(obj);
@@ -97,7 +97,7 @@ public class IMobileServiceImpl implements IMobileService {
 	@Override
 	public Mobiles showMobileById(int mobileId) throws MobileNotFoundException {
 		Optional<Mobiles> optMobiles = iMobileRepository.findById(mobileId);
-		if (optMobiles.isEmpty()) {
+		if (!optMobiles.isPresent()) {
 			throw new MobileNotFoundException("Mobile id not found: " + mobileId);
 		}
 		return optMobiles.get();

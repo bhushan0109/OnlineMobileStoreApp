@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +49,7 @@ public class OrdersServiceImpl implements IOrderService {
 		newOrder.setDispachDate(LocalDate.now());
 
 		Optional<Customer> optCustomer = iCustomerRepository.findById(ordersDto.getCustomerId());
-		if (optCustomer.isEmpty()) {
+		if (!optCustomer.isPresent()) {
 			throw new UsersException("CustomerId not found:" + ordersDto.getCustomerId());
 		}
 
@@ -59,7 +61,7 @@ public class OrdersServiceImpl implements IOrderService {
 		for (Integer mobileId : mobilesIds) {
 
 			Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
-			if (optMobiles.isEmpty()) {
+			if (!optMobiles.isPresent()) {
 				throw new MobilesException("Mobile id " + mobileId + " does not exists !");
 			}
 			Mobiles mobile = optMobiles.get();
@@ -79,7 +81,7 @@ public class OrdersServiceImpl implements IOrderService {
 	public Orders updateOrder(OrdersDto ordersDto) throws OrderNotFoundException, OrdersException, MobilesException {
 
 		Optional<Orders> optOrders = this.iorderRepository.findById(ordersDto.getOrderId());
-		if (optOrders.isEmpty()) {
+		if (!optOrders.isPresent()) {
 			throw new OrdersException("Orders id " + ordersDto.getOrderId() + " does not exists !");
 		}
 
@@ -92,7 +94,7 @@ public class OrdersServiceImpl implements IOrderService {
 		for (Integer mobileId : mobilesIds) {
 
 			Optional<Mobiles> optMobiles = this.iMobileRepository.findById(mobileId);
-			if (optMobiles.isEmpty()) {
+			if (!optMobiles.isPresent()) {
 				throw new MobilesException("Mobile id " + mobileId + " does not exists !");
 			}
 			Mobiles mobile = optMobiles.get();
@@ -108,20 +110,24 @@ public class OrdersServiceImpl implements IOrderService {
 	}
 
 	@Override
+	@Transactional
 	public Orders cancelOrder(int orderId) throws OrderNotFoundException, OrdersException {
-		Optional<Orders> optOrder = this.iorderRepository.findById(orderId);
-		if (optOrder.isEmpty())
+		Optional<Orders> optOrder = iorderRepository.findById(orderId);
+		if (!optOrder.isPresent())
 			throw new OrdersException("Order id does not exists to delete !");
-		Orders order = optOrder.get();
-		order.setOrderStatus("ORDER CANCELED");
-		this.iorderRepository.save(order);
-		return order;
+		
+		int save = iorderRepository.updateOrder(orderId, "ORDER CANCELED");
+		Optional<Orders> optOrder1 = iorderRepository.findById(orderId);
+		if (!optOrder.isPresent())
+			throw new OrdersException("Order id does not exists to delete !");
+		Orders order1 = optOrder1.get();
+		return order1;
 	}
 
 	@Override
 	public Orders getOrderById(int orderId) throws OrdersException {
 		Optional<Orders> optOrders = this.iorderRepository.findById(orderId);
-		if (optOrders.isEmpty()) {
+		if (!optOrders.isPresent()) {
 			throw new OrdersException("Orders id " + orderId + " does not exists !");
 		}
 
@@ -142,11 +148,11 @@ public class OrdersServiceImpl implements IOrderService {
 		newOrder.setDispachDate(LocalDate.now());
 
 		Optional<Cart> optCart = this.icartRepository.findById(cartId);
-		if (optCart.isEmpty())
+		if (!optCart.isPresent())
 			throw new CartException("cart id does not exists to delete ");
 
 		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
-		if (optCustomer.isEmpty()) {
+		if (!optCustomer.isPresent()) {
 			throw new UsersException("CustomerId not found:" + customerId);
 		}
 
@@ -183,6 +189,18 @@ public class OrdersServiceImpl implements IOrderService {
 
 		return saveorder;
 
+	}
+
+	@Override
+	public List<Orders> getOrderByCustomerId(Integer customerId) throws UsersException {
+		Optional<Customer> optCustomer = iCustomerRepository.findById(customerId);
+		if (!optCustomer.isPresent()) {
+			throw new UsersException("CustomerId not found:" + customerId);
+		}
+		
+		List<Orders> userOrders  = iorderRepository.findOrderByCostomerId(customerId);
+		//List<Orders> userOrders = optCustomer.get().getUserOrders();
+		return userOrders;
 	}
 
 }

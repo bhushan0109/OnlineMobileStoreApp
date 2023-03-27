@@ -86,12 +86,15 @@ public class UserServiceImpl implements IUserService {
 		}
 		
 		Optional<Users> optUsers = this.iUserRepository.findById(addUserDto.getUserId());
-		if (optUsers.isEmpty())
+		if (!optUsers.isPresent())
 			throw new UsersException("User id does not exists to update !");
 
 		Users user = optUsers.get();
-		BeanUtils.copyProperties(addUserDto, user);
-		if (addUserDto.getPassword() != null) {
+		user.setRole(addUserDto.getRole());
+		user.setUsername(addUserDto.getUsername());
+		if (addUserDto.getPassword() == null) {
+			user.setPassword(optUsers.get().getPassword());
+		}else {
 			user.setPassword(bcryptEncoder.encode(addUserDto.getPassword().trim()));
 		}
 		Users saveuser = iUserRepository.save(user);
@@ -114,7 +117,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Users removeUser(int userId) throws UserNotFoundException, UsersException {
 		Optional<Users> optUsers = this.iUserRepository.findById(userId);
-		if (optUsers.isEmpty())
+		if (!optUsers.isPresent())
 			throw new UsersException("User id does not exists to delete !");
 		Users user = optUsers.get();
 		this.iUserRepository.delete(user);
@@ -130,7 +133,7 @@ public class UserServiceImpl implements IUserService {
 	public AddUserDto getUserByUserId(int userId) throws UsersException {
 		AddUserDto AddUserDto = new AddUserDto();
 		Optional<Users> optUsers = this.iUserRepository.findById(userId);
-		if (optUsers.isEmpty())
+		if (!optUsers.isPresent())
 			throw new UsersException("User id does not exists to delete !");
 		Users user = optUsers.get();
 
@@ -148,7 +151,7 @@ public class UserServiceImpl implements IUserService {
 		} else {
 
 			Optional<Customer> optCustomer = iCustomerRepository.findById(userId);
-			if (optCustomer.isEmpty()) {
+			if (!optCustomer.isPresent()) {
 				throw new UsersException("CustomerId not found:" + userId);
 			}
 			Customer customer = optCustomer.get();
@@ -175,7 +178,7 @@ public class UserServiceImpl implements IUserService {
 
 			AddUserDto AddUserDto = new AddUserDto();
 			Optional<Users> optUsers = this.iUserRepository.findById(users.getUserId());
-			if (optUsers.isEmpty())
+			if (!optUsers.isPresent())
 				throw new UsersException("User id does not exists to delete !");
 			Users user = optUsers.get();
 
@@ -193,7 +196,7 @@ public class UserServiceImpl implements IUserService {
 			} else {
 
 				Optional<Customer> optCustomer = iCustomerRepository.findById(users.getUserId());
-				if (optCustomer.isEmpty()) {
+				if (!optCustomer.isPresent()) {
 					throw new UsersException("CustomerId not found:" + users.getUserId());
 				}
 				Customer customer = optCustomer.get();

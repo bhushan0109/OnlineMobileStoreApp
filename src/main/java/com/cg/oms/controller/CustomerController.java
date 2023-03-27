@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.oms.dto.AddUserDto;
 import com.cg.oms.entity.Cart;
+import com.cg.oms.entity.Orders;
 import com.cg.oms.entity.Users;
 import com.cg.oms.exception.CartException;
 import com.cg.oms.exception.MobilesException;
+import com.cg.oms.exception.OrdersException;
 import com.cg.oms.exception.UserNotFoundException;
 import com.cg.oms.exception.UsersException;
 import com.cg.oms.service.ICartService;
+import com.cg.oms.service.IOrderService;
 import com.cg.oms.service.IUserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -33,6 +36,8 @@ public class CustomerController {
 	private IUserService iUserService;
 	@Autowired
 	private ICartService cartService;
+	@Autowired
+	private IOrderService iOrderService;
 
 	@PutMapping("/edit/user")
 	public AddUserDto UserServiceUpdate(@Valid @RequestBody AddUserDto addUserDto)
@@ -82,6 +87,11 @@ public class CustomerController {
 		return cartService.removeMobilefromCartByIds(mobileId, cartId);
 	}
 	
-	
+	@GetMapping("/get/order/{customerId}")
+	//@PreAuthorize("hasAuthority('User')")
+	public List<Orders> getOrderByCustomerId(@PathVariable("customerId") Integer customerId) throws OrdersException, UsersException {
+
+		return iOrderService.getOrderByCustomerId(customerId);
+	}
 
 }

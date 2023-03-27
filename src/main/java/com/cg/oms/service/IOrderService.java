@@ -24,4 +24,6 @@ public interface IOrderService {
 
 	public Orders placedOrderFromCart(int customerId, int cartId) throws UsersException, CartException;
 
+	public List<Orders> getOrderByCustomerId(Integer customerId) throws UsersException;
+
 }
